@@ -3,8 +3,8 @@ import classNames from "classnames";
 interface PropsFilter {
   typeContent: "tracks" | "artists" | "playlists";
   setTimeRange: (type: "tracks" | "artists", range: string) => void;
-  timeRangeTracks?: string | undefined;
-  timeRangeArtists?: string | undefined;
+  timeRangeTracks?: string;
+  timeRangeArtists?: string;
 }
 
 export function Filter({ setTimeRange, typeContent, timeRangeTracks, timeRangeArtists}: PropsFilter) {

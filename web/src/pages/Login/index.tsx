@@ -1,6 +1,7 @@
 import { FaSpotify } from "react-icons/fa";
-export function Login() {
-  const loginSpotify = () => {
+
+export default function Login() {
+  const redirectToLogin = () => {
     const client_id = import.meta.env.VITE_API_CLIENT_ID;
     const redirect_uri = import.meta.env.VITE_API_REDIRECT_URI;
     const scope = import.meta.env.VITE_API_SCOPE;
@@ -11,10 +12,16 @@ export function Login() {
 
   return (
     <div className="h-screen w-full flex justify-center items-center bg-gray-900">
-      <a className="flex items-center gap-2 bg-green-600 font-bold rounded-lg px-4 py-3 cursor-pointer hover:bg-green-700" onClick={loginSpotify}>
-        <FaSpotify size={20}/>
+      <h2>Your Stats</h2>
+      <p>View</p>
+      <button
+        type="button"
+        className="text-gray-900 flex items-center gap-2 bg-green-600 font-bold rounded-lg px-4 py-3 cursor-pointer hover:bg-green-700"
+        onClick={redirectToLogin}
+      >
+        <FaSpotify size={20} />
         Login with Spotify
-      </a>
+      </button>
     </div>
   );
 }

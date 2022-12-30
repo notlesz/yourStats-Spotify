@@ -1,14 +1,17 @@
 import { Routes, Route } from "react-router-dom";
-import { LoginCallback } from "./pages/callback/LoginCallback";
-import { Home } from "./pages/Home";
-import { Login } from "./pages/Login";
+import { UserProvider } from "./context/userContext";
+import { Home, HomeMain, Login, LoginCallback } from "./pages";
 
 export function Router() {
   return (
-    <Routes>
-      <Route path="/logincallback" element={<LoginCallback />} />
-      <Route path="/" element={<Login />} />
-      <Route path="/home" element={<Home />} />
-    </Routes>
+    <UserProvider>
+      <Routes>
+        <Route path="/login_callback" element={<LoginCallback />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/home" element={<Home />}>
+          <Route path="" element={<HomeMain />} />
+        </Route>
+      </Routes>
+    </UserProvider>
   );
 }

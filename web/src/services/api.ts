@@ -1,23 +1,49 @@
 import axios, { AxiosResponse } from "axios";
+import { userToken } from "../types/auth";
 
 const api = axios.create({
-  baseURL: "http://localhost:3333",
+  baseURL: import.meta.env.VITE_API_SERVER ?? "http://localhost:3333",
 });
 
-export const getAccessToken = async (code: string): Promise<AxiosResponse> =>
+export const getAccessToken = async (
+  code: string
+): Promise<AxiosResponse<userToken>> =>
   await api.post("/callback", {
     code,
   });
 
-export const getUserData = ():Promise<AxiosResponse> => api.get('/user')
+export const getUserData = (token: string): Promise<AxiosResponse> =>
+  api.get("/user", {
+    headers: {
+      Authorization: token,
+    },
+  });
 
-export const getTopContent = (type: string, time_range: string):Promise<AxiosResponse> => api.get('/user/top', {
-  params: {
-    type,
-    time_range
-  }
-});
+export const getTopContent = (
+  type: string,
+  time_range: string,
+  token: string
+): Promise<AxiosResponse> =>
+  api.get("/user/top", {
+    headers: {
+      Authorization: token,
+    },
+    params: {
+      type,
+      time_range,
+    },
+  });
 
-export const getUserPlaylists = ():Promise<AxiosResponse> => api.get('/user/playlists');
+export const getUserPlaylists = (token: string): Promise<AxiosResponse> =>
+  api.get("/user/playlists", {
+    headers: {
+      Authorization: token,
+    },
+  });
 
-export const getCurrentlyPlaying = ():Promise<AxiosResponse> => api.get('/user/currently-playing');
+export const getCurrentlyPlaying = (token: string): Promise<AxiosResponse> =>
+  api.get("/user/currently-playing", {
+    headers: {
+      Authorization: token,
+    },
+  });

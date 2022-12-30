@@ -1,6 +1,5 @@
 export interface User {
   display_name: string;
-  id: string;
   email: string;
   external_urls: {
     spotify: string;
