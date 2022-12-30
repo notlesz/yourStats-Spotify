@@ -1,6 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
-import { AccessToken } from "../../types/accessToken";
+import { api } from "../lib/axios";
 
 dotenv.config();
 
@@ -24,70 +24,71 @@ export const getAccessToken = async (code: string) => {
         `${client_id}:${client_secret}`
       ).toString("base64")}`,
     },
-  }).then((response) => response.data);
+  })
+    .then((response) => response)
+    .catch((error) => error);
 
   return accessToken;
 };
 
-export const getUserData = async (token: AccessToken) => {
-  const userData = await axios({
-    method: "get",
-    url: "https://api.spotify.com/v1/me",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token.access_token}`,
-    },
-  }).then((response) => response.data);
+export const getUserData = async (token: string) => {
+  const response = await api
+    .get("/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => response)
+    .catch((error) => error);
 
-  return userData;
+  return response;
 };
 
 export const getUserTopContent = async (
-  token: AccessToken,
-  query: { type: string; time_range: string }
+  token: string,
+  type: string,
+  time_range: string,
 ) => {
-  const { time_range, type } = query;
+  const response = await api
+    .get(`/me/top/${type}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        time_range,
+      },
+    })
+    .then((response) => response)
+    .catch((error) => error);
 
-  const topContent = await axios({
-    method: "get",
-    url: `https://api.spotify.com/v1/me/top/${type}`,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token.access_token}`,
-    },
-    params: {
-      time_range,
-    },
-  }).then((response) => response.data);
-
-  return topContent;
+  return response;
 };
 
-export const getUserPlaylists = async ({ access_token }: AccessToken) => {
-  const playlists = await axios({
-    method: "get",
-    url: `https://api.spotify.com/v1/me/playlists`,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${access_token}`,
-    },
-    params: {
-      limit: 50,
-    },
-  }).then((response) => response.data);
+export const getUserPlaylists = async (token: string) => {
+  const response = await api
+    .get("/me/playlists", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        limit: 50,
+      },
+    })
+    .then((response) => response)
+    .catch((error) => error);
 
-  return playlists;
+  return response;
 };
 
-export const getCurrentlyPlaying = async (token: AccessToken) => {
-  const currentlyPlaying = await axios({
-    method: "get",
-    url: `https://api.spotify.com/v1/me/player/currently-playing`,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token.access_token}`,
-    },
-  }).then((response) => response.data );
+export const getCurrentlyPlaying = async (token: string) => {
+  const response = await api
+    .get("/me/player/currently-playing", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => response)
+    .then((error) => error);
 
-  return currentlyPlaying;
+  return response;
 };
