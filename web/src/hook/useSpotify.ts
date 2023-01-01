@@ -1,122 +1,130 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext, useState } from "react";
+import { useQuery } from "react-query";
 import { UserContext } from "../context/userContext";
 import {
   getCurrentlyPlaying,
   getTopContent,
-  getUserPlaylists,
+  getUserPlaylists
 } from "../services/api";
 import { Artists } from "../types/artists";
 import { Playlists } from "../types/playlists";
 import { Tracks } from "../types/tracks";
+import useToast from "./useToast";
+
+export type TimeRange = "medium_term" | "long_term" | "short_term";
+
 export default function useSpotify() {
-  const userToken = localStorage.getItem("token_user");
+  const { user, logout } = useContext(UserContext);
+  const [timeRangeTracks, setTimeRangeTracks] =
+    useState<TimeRange>("medium_term");
+  const [timeRangeArtists, setTimeRangeArtists] =
+    useState<TimeRange>("medium_term");
 
-  const { user } = useContext(UserContext);
+  const token = localStorage.getItem("token_user") || null;
+  const { handleToast } = useToast();
 
-  const [userPlaylists, setUserPlaylists] = useState<Playlists[]>();
-
-  const [topTracks, setTopTracks] = useState<Tracks[]>();
-  const [topArtists, setTopArtists] = useState<Artists[]>();
-
-  const [musicCurrentlyPlaying, setMusicCurrentlyPlaying] = useState<Tracks>();
-
-  const [timeRangeTracks, setTimeRangeTracks] = useState("medium_term");
-  const [timeRangeArtists, setTimeRangeArtists] = useState("medium_term");
-
-  const [loadingAll, setLoadingAll] = useState(true);
-  const [loadingTracks, setLoadingTracks] = useState(true);
-  const [loadingArtist, setLoadingArtist] = useState(true);
-
-  const userPlaylistFilter = userPlaylists?.filter(
-    (playlist) =>
-      playlist.owner.display_name === user?.display_name &&
-      !playlist.collaborative
+  const { data: playlist, isFetching: isFetchingPlaylist } = useQuery<
+    Playlists[]
+  >(
+    "playlist",
+    async () => {
+      if (token) {
+        try {
+          const { data } = await getUserPlaylists(token);
+          return data.items;
+        } catch (error: any) {
+          if (error.response.status === 401) {
+            handleToast("error", error.response.message);
+            logout();
+          }
+        }
+      }
+    },
+    {
+      staleTime: 3000 * 60,
+    }
   );
 
-  const getListTopTracks = async () => {
-    if (userToken) {
-      const { data } = await getTopContent(
-        "tracks",
-        timeRangeTracks,
-        userToken
-      );
-      setTopTracks(data.items);
-      setLoadingTracks(false);
+  const { data: tracks, isFetching: isFetchingTracks } = useQuery<Tracks[]>(
+    ["tracks", timeRangeTracks],
+    async () => {
+      if (token) {
+        const { data } = await getTopContent("tracks", timeRangeTracks, token);
+        return data.items;
+      }
+    },
+    {
+      staleTime: 3000 * 60,
     }
-  };
+  );
 
-  const getListTopArtists = async () => {
-    if (userToken) {
-      const { data } = await getTopContent(
-        "artists",
-        timeRangeArtists,
-        userToken
-      );
-      setTopArtists(data.items);
-      setLoadingArtist(false);
+  const { data: artists, isFetching: isFetchingArtists } = useQuery<Artists[]>(
+    ["artists", timeRangeArtists],
+    async () => {
+      if (token) {
+        const { data } = await getTopContent(
+          "artists",
+          timeRangeArtists,
+          token
+        );
+        return data.items;
+      }
+    },
+    {
+      staleTime: 3000 * 60,
     }
-  };
+  );
 
-  const getListUserPlaylists = async () => {
-    if (userToken) {
-      const { data } = await getUserPlaylists(userToken);
-      setUserPlaylists(data.items);
-    }
-  };
+  const { data: currentlyPlaying, isFetching: isFetchingCurrently } =
+    useQuery<Tracks>(
+      "currentlyPlaying",
+      async () => {
+        if (token && user) {
+          try {
+            const { data } = await getCurrentlyPlaying(token);
+            return data.item;
+          } catch (error: any) {
+            if (error.response.status === 401) {
+              handleToast("error", error.response.message);
+              logout();
+            }
+          }
+        }
+      },
+      {
+        refetchInterval: 1000 * 30, // 30 seconds
+      }
+    );
 
-  const getUserCurrentPlaying = async () => {
-    if (userToken) {
-      const { data } = await getCurrentlyPlaying(userToken);
-      if (data.item) {
-        setMusicCurrentlyPlaying(data.item);
+  const handleTimeRange = (
+    type: "tracks" | "artists",
+    timeRange: TimeRange
+  ) => {
+    if (type === "tracks") {
+      if (timeRange !== timeRangeTracks) {
+        setTimeRangeTracks(timeRange);
+        // queryClient.invalidateQueries("tracks");
+      }
+    } else {
+      if (timeRange !== timeRangeArtists) {
+        setTimeRangeArtists(timeRange);
+        // queryClient.invalidateQueries("artists");
       }
     }
   };
 
-  const handleTimeRange = (type: "tracks" | "artists", range: string) => {
-    if (type === "tracks") setTimeRangeTracks(range);
-    else setTimeRangeArtists(range);
-  };
-
-  useEffect(() => {
-    getListTopTracks();
-    getListTopArtists();
-    getListUserPlaylists();
-    getUserCurrentPlaying();
-    console.log(userToken)
-  }, []);
-
-  useEffect(() => {
-    if (user && topTracks && topArtists && userPlaylists) setLoadingAll(false);
-  }, [user, topTracks, topArtists, userPlaylists]);
-
-  useEffect(() => {
-    getListTopTracks();
-    setLoadingTracks(true);
-  }, [timeRangeTracks]);
-
-  useEffect(() => {
-    getListTopArtists();
-    setLoadingArtist(true);
-  }, [timeRangeArtists]);
-
-  useEffect(() => {
-    setInterval(() => {
-      getUserCurrentPlaying();
-    }, 30000);
-  }, []);
-
   return {
+    artists,
     user,
-    userPlaylistFilter,
-    topTracks,
-    topArtists,
-    musicCurrentlyPlaying,
-    timeRangeTracks,
+    tracks,
+    playlist,
+    currentlyPlaying,
     timeRangeArtists,
-    loadingAll,
-    loadingTracks,
-    loadingArtist,
+    timeRangeTracks,
     handleTimeRange,
+    isFetchingArtists,
+    isFetchingCurrently,
+    isFetchingPlaylist,
+    isFetchingTracks,
   };
 }

@@ -1,5 +1,10 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
+import { QueryClientProvider } from "react-query";
 import App from "./App";
 import "./index.css";
-ReactDOM.createRoot(document.getElementById("root")!).render(<App />);
+import { queryClient } from "./services/queryClient";
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <QueryClientProvider client={queryClient}>
+    <App />
+  </QueryClientProvider>
+);
