@@ -8,7 +8,6 @@ import { UserContext } from "../../context/userContext";
 import useSpotify from "../../hook/useSpotify";
 
 export default function Home() {
-  // const { user, loadingAll } = useSpotify();
   const {
     user,
     isFetchingArtists,
