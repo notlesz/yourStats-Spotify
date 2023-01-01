@@ -1,23 +1,23 @@
 import useSpotify from "../hook/useSpotify";
 
 export function Player() {
-  const { musicCurrentlyPlaying } = useSpotify();
+  const { currentlyPlaying } = useSpotify();
 
   return (
     <>
-      {musicCurrentlyPlaying && (
-        <div className="flex items-center gap-5 bg-green-600 min-w-[300px] p-3 rounded">
+      {currentlyPlaying && (
+        <div className="flex items-center gap-5 bg-green-600 min-w-[300px] p-3 rounded sm:flex-col sm:min-w-[150px] sm:self-center py-4 animate-hideToShow">
           <img
             className="w-[80px] h-[80px] rounded-full"
-            src={musicCurrentlyPlaying?.album?.images[0]?.url}
-            alt={musicCurrentlyPlaying?.album?.name}
+            src={currentlyPlaying?.album?.images[0]?.url}
+            alt={currentlyPlaying?.album?.name}
           />
           <div className="flex flex-col">
-            <span className="font-bold text-white">
-              {musicCurrentlyPlaying?.name}
+            <span className="font-bold text-white sm:text-sm sm:text-center">
+              {currentlyPlaying?.name}
             </span>
-            <span className="font-semibold text-black">
-              {musicCurrentlyPlaying?.artists[0]?.name}
+            <span className="font-semibold text-black sm:text-sm sm:text-center">
+              {currentlyPlaying?.artists[0]?.name}
             </span>
           </div>
         </div>

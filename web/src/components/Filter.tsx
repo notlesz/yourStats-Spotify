@@ -1,20 +1,28 @@
 import classNames from "classnames";
+import { TimeRange } from "../hook/useSpotify";
 
 interface PropsFilter {
   typeContent: "tracks" | "artists" | "playlists";
-  setTimeRange: (type: "tracks" | "artists", range: string) => void;
+  setTimeRange: (type: "tracks" | "artists", range: TimeRange) => void;
   timeRangeTracks?: string;
   timeRangeArtists?: string;
 }
 
-export function Filter({ setTimeRange, typeContent, timeRangeTracks, timeRangeArtists}: PropsFilter) {
+export function Filter({
+  setTimeRange,
+  typeContent,
+  timeRangeTracks,
+  timeRangeArtists,
+}: PropsFilter) {
   return (
-    <div className="flex gap-3 mb-8">
+    <div className="flex gap-3 mb-8 ">
       <span
         className={classNames(
           "cursor-pointer text-white text-sm font-bold py-[5px] px-[10px] flex items-center justify-center rounded border border-white hover:text-black hover:bg-white transition-colors",
           {
-            "bg-white text-black": !timeRangeTracks && timeRangeArtists === "long_term" || !timeRangeArtists && timeRangeTracks  === "long_term",
+            "bg-white text-black":
+              (!timeRangeTracks && timeRangeArtists === "long_term") ||
+              (!timeRangeArtists && timeRangeTracks === "long_term"),
           }
         )}
         onClick={() => {
@@ -29,7 +37,9 @@ export function Filter({ setTimeRange, typeContent, timeRangeTracks, timeRangeAr
         className={classNames(
           "cursor-pointer text-white text-sm font-bold py-[5px] px-[10px] flex items-center justify-center rounded border border-white hover:text-black hover:bg-white transition-colors",
           {
-            "bg-white text-black": !timeRangeTracks && timeRangeArtists === "medium_term" || !timeRangeArtists && timeRangeTracks  === "medium_term",
+            "bg-white text-black":
+              (!timeRangeTracks && timeRangeArtists === "medium_term") ||
+              (!timeRangeArtists && timeRangeTracks === "medium_term"),
           }
         )}
         onClick={() => {
@@ -44,7 +54,9 @@ export function Filter({ setTimeRange, typeContent, timeRangeTracks, timeRangeAr
         className={classNames(
           "cursor-pointer text-white text-sm font-bold py-[5px] px-[10px] flex items-center justify-center rounded border border-white hover:text-black hover:bg-white transition-colors",
           {
-            "bg-white text-black": !timeRangeTracks && timeRangeArtists === "short_term" || !timeRangeArtists && timeRangeTracks  === "short_term",
+            "bg-white text-black":
+              (!timeRangeTracks && timeRangeArtists === "short_term") ||
+              (!timeRangeArtists && timeRangeTracks === "short_term"),
           }
         )}
         onClick={() => {

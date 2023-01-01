@@ -16,7 +16,7 @@ export default function Loading({ size = "medium" }: Props) {
     <span
       className={`animate-spin ${setSize(
         size
-      )} border-solid border-gray-500 border-t-green-600 rounded-full`}
+      )} border-solid border-white border-t-green-600 rounded-full`}
     />
   );
 }
