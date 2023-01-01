@@ -103,12 +103,10 @@ export default function useSpotify() {
     if (type === "tracks") {
       if (timeRange !== timeRangeTracks) {
         setTimeRangeTracks(timeRange);
-        // queryClient.invalidateQueries("tracks");
       }
     } else {
       if (timeRange !== timeRangeArtists) {
         setTimeRangeArtists(timeRange);
-        // queryClient.invalidateQueries("artists");
       }
     }
   };
