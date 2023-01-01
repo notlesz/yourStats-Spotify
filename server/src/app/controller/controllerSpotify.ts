@@ -1,5 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import { Request, Response } from "express";
 import { api } from "../lib/axios";
 
 dotenv.config();
@@ -9,86 +10,132 @@ const redirect_uri = process.env.REDIRECT_URI;
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 
-export const getAccessToken = async (code: string) => {
-  const accessToken = await axios({
-    method: "post",
-    url: "https://accounts.spotify.com/api/token",
-    data: querystring.stringify({
-      grant_type: "authorization_code",
-      code: code,
-      redirect_uri: redirect_uri,
-    }),
-    headers: {
-      "content-type": "application/x-www-form-urlencoded",
-      Authorization: `Basic ${Buffer.from(
-        `${client_id}:${client_secret}`
-      ).toString("base64")}`,
-    },
-  })
-    .then((response) => response)
-    .catch((error) => error);
+export const getAccessToken = async (req: Request, res: Response) => {
+  const { code } = req.body;
 
-  return accessToken;
+  if (!code) {
+    return res.status(400).send({
+      message: "Invalid Code",
+    });
+  }
+
+  try {
+    const { data } = await axios.post(
+      "https://accounts.spotify.com/api/token",
+      querystring.stringify({
+        grant_type: "authorization_code",
+        code: code,
+        redirect_uri: redirect_uri,
+      }),
+      {
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          Authorization: `Basic ${Buffer.from(
+            `${client_id}:${client_secret}`
+          ).toString("base64")}`,
+        },
+      }
+    );
+    res.status(201).json(data);
+  } catch (error) {
+    return res.status(401).json({
+      message: "Invalid Code",
+    });
+  }
 };
 
-export const getUserData = async (token: string) => {
-  const response = await api
-    .get("/me", {
+export const getUserData = async (req: Request, res: Response) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).send({
+      message: "Invalid Access Token",
+    });
+  }
+  try {
+    const { data } = await api.get("/me", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    })
-    .then((response) => response)
-    .catch((error) => error);
-
-  return response;
+    });
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(401).send({
+      message: "Invalid Access Token",
+    });
+  }
 };
 
-export const getUserTopContent = async (
-  token: string,
-  type: string,
-  time_range: string,
-) => {
-  const response = await api
-    .get(`/me/top/${type}`, {
+export const getUserTopContent = async (req: Request, res: Response) => {
+  const { type, time_range } = req.query;
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).send({
+      message: "Invalid Access Token",
+    });
+  }
+
+  try {
+    const { data } = await api.get(`/me/top/${type}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
       params: {
         time_range,
       },
-    })
-    .then((response) => response)
-    .catch((error) => error);
-
-  return response;
+    });
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(401).send({
+      message: "Invalid Access Token",
+    });
+  }
 };
 
-export const getUserPlaylists = async (token: string) => {
-  const response = await api
-    .get("/me/playlists", {
+export const getUserPlaylists = async (req: Request, res: Response) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).send({
+      message: "Invalid Access Token",
+    });
+  }
+
+  try {
+    const { data } = await api.get("/me/playlists", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
       params: {
         limit: 50,
       },
-    })
-    .then((response) => response)
-    .catch((error) => error);
-
-  return response;
+    });
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(401).send({
+      message: "Invalid Access Token",
+    });
+  }
 };
 
-export const getCurrentlyPlaying = async (token: string) => {
-  const response = await api
-    .get("/me/player/currently-playing", {
+export const getCurrentlyPlaying = async (req: Request, res: Response) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).send({
+      message: "Invalid Access Token",
+    });
+  }
+
+  try {
+    const { data } = await api.get("/me/player/currently-playing", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    })
-    .then((response) => response)
-    .then((error) => error);
-
-  return response;
+    });
+    return res.status(200).send(data);
+  } catch (error: any) {
+    return res.status(401).json({
+      message: "Invalid Access Token",
+    });
+  }
 };
