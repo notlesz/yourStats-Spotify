@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { userToken } from "../types/auth";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_SERVER ?? import.meta.env.VITE_API_SERVER_LOCAL,
+  baseURL: import.meta.env.VITE_API_SERVER,
 });
 
 export const getAccessToken = async (
