@@ -1,4 +1,4 @@
-import { FaSpotify } from "react-icons/fa";
+import { FaSpotify } from 'react-icons/fa';
 
 export default function Login() {
   const redirectToLogin = () => {
@@ -11,19 +11,19 @@ export default function Login() {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col gap-20 justify-center items-center bg-black text-white">
+    <div className='h-screen w-full flex flex-col gap-20 justify-center items-center bg-black text-white sm:gap-10 px-4'>
       <div>
-        <p className="text-4xl font-normal font-russoOne text-green-600 text-center mb-4">
+        <p className='text-4xl font-normal font-russoOne text-green-600 text-center mb-4 sm:text-xl'>
           Hello There!
         </p>
-        <h2 className="text-4xl font-bold">See your stats on Spotify</h2>
+        <h2 className='text-4xl font-bold text-center sm:text-xl'>See your stats on Spotify</h2>
       </div>
       <button
-        type="button"
-        className="font-bold flex items-center gap-2 bg-green-600 rounded-lg px-4 py-3 cursor-pointer hover:bg-green-700"
+        type='button'
+        className='font-bold flex items-center gap-2 bg-green-600 rounded-lg px-4 py-3 cursor-pointer hover:bg-green-700 sm:px-3 sm:py-2 sm:text-sm'
         onClick={redirectToLogin}
       >
-        <FaSpotify size={20} />
+        <FaSpotify className='w-5 h-5 sm:w-4 sm:h-4' />
         Sign In
       </button>
     </div>
