@@ -1,4 +1,7 @@
 export interface Tracks {
+  external_urls: {
+    spotify: string;
+  };
   name: string;
   id: string;
   album: {

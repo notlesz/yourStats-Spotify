@@ -1,4 +1,7 @@
 export interface Artists {
+  external_urls: {
+    spotify: string
+  };
   name: string;
   id: string;
   href: string;
