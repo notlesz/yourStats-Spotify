@@ -1,10 +1,9 @@
 import Router from "express";
 import {
   getAccessToken,
-  getCurrentlyPlaying,
-  getUserData,
+  getCurrentlyPlaying, getUserData,
   getUserPlaylists,
-  getUserTopContent,
+  getUserTopContent
 } from "./app/controller/controllerSpotify";
 
 export const routes = Router();

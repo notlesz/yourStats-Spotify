@@ -37,9 +37,9 @@ export const getAccessToken = async (req: Request, res: Response) => {
       }
     );
     res.status(201).json(data);
-  } catch (error) {
-    return res.status(401).json({
-      message: "Invalid Code",
+  } catch (error: any) {
+    return res.status(error.response.data.error.status).json({
+      message: error.response.data.error.message,
     });
   }
 };
@@ -58,9 +58,9 @@ export const getUserData = async (req: Request, res: Response) => {
       },
     });
     return res.status(200).send(data);
-  } catch (error) {
-    return res.status(401).send({
-      message: "Invalid Access Token",
+  } catch (error: any) {
+    return res.status(error.response.data.error.status).json({
+      message: error.response.data.error.message,
     });
   }
 };
@@ -85,9 +85,9 @@ export const getUserTopContent = async (req: Request, res: Response) => {
       },
     });
     return res.status(200).send(data);
-  } catch (error) {
-    return res.status(401).send({
-      message: "Invalid Access Token",
+  } catch (error: any) {
+    return res.status(error.response.data.error.status).json({
+      message: error.response.data.error.message,
     });
   }
 };
@@ -110,9 +110,9 @@ export const getUserPlaylists = async (req: Request, res: Response) => {
       },
     });
     return res.status(200).send(data);
-  } catch (error) {
-    return res.status(401).send({
-      message: "Invalid Access Token",
+  } catch (error: any) {
+    return res.status(error.response.data.error.status).json({
+      message: error.response.data.error.message,
     });
   }
 };
@@ -134,8 +134,8 @@ export const getCurrentlyPlaying = async (req: Request, res: Response) => {
     });
     return res.status(200).send(data);
   } catch (error: any) {
-    return res.status(401).json({
-      message: "Invalid Access Token",
+    return res.status(error.response.data.error.status).json({
+      message: error.response.data.error.message,
     });
   }
 };
