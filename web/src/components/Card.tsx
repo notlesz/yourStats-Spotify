@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 interface CardProps {
   title: string;
   subTitle?: string;
@@ -5,6 +7,8 @@ interface CardProps {
   total?: number;
   ranked: boolean;
   position?: number;
+  externalUrl?: string;
+  id: string;
 }
 
 export default function Card({
@@ -14,41 +18,42 @@ export default function Card({
   total,
   ranked,
   position,
+  externalUrl,
+  id,
 }: CardProps) {
+  const navigate = useNavigate();
+
   return (
-    <li className="text-white flex items-center justify-around animate-hideToShow">
+    <li
+      className='text-white flex items-center justify-around animate-hideToShow hover:text-green-500 hover:cursor-pointer'
+      onClick={() => window.open(externalUrl, '_blank')}
+    >
       <div
-        className={`flex flex-col items-center ${ranked ? "justify-start" : "justify-center"} gap-3 bg-gray-600 rounded w-[200px] min-h-[280px] py-4 px-1 self-start`}
+        className={`flex flex-col items-center ${
+          ranked ? 'justify-start' : 'justify-center'
+        } gap-3 bg-gray-600 rounded w-[200px] min-h-[280px] py-4 px-1 self-start`}
       >
         {ranked && position ? (
           <span
             className={`text-gray-300 font-bold self-center ${
               ranked && position <= 3
-                ? `w-7 h-7   ${
+                ? `w-7 h-7 ${
                     position === 1
-                      ? "bg-gold-500"
+                      ? 'bg-gold-500'
                       : position === 2
-                      ? "bg-silver-500"
-                      : "bg-bronze-500"
+                      ? 'bg-silver-500'
+                      : 'bg-bronze-500'
                   } flex items-center justify-center rounded-full`
-                : ""
+                : ''
             }`}
           >
             {position}º
           </span>
         ) : null}
-        <img
-          className="w-[150px] h-[150px] rounded-full object-cover "
-          src={image}
-          alt={title}
-        />
-        <span className="font-bold text-center text-sm">{title}</span>
-        {subTitle ? (
-          <span className="text-sm text-gray-100 text-center">{subTitle}</span>
-        ) : null}
-        {total ? (
-          <span className="text-sm text-gray-100">Tracks: {total}</span>
-        ) : null}
+        <img className='w-[150px] h-[150px] rounded-full object-cover' src={image} alt={title} />
+        <span className='font-bold text-sm text-center'>{title}</span>
+        {subTitle ? <span className='text-sm text-gray-100 text-center'>{subTitle}</span> : null}
+        {total ? <span className='text-sm text-gray-100'>Tracks: {total}</span> : null}
       </div>
     </li>
   );

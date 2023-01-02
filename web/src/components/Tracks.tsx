@@ -1,36 +1,35 @@
-import useSpotify from "../hook/useSpotify";
-import Card from "./Card";
-import { Filter } from "./Filter";
-import Loading from "./Loading";
+import useSpotify from '../hooks/useSpotify';
+import Card from './Card';
+import { Filter } from './Filter';
+import Loading from './Loading';
 
 export default function Tracks() {
-  const { tracks, handleTimeRange, timeRangeTracks, isFetchingTracks } =
-    useSpotify();
+  const { tracks, handleTimeRange, timeRangeTracks, isFetchingTracks } = useSpotify();
 
   return (
-    <section className="animate-leftToShow">
-      <h3 className="text-white text-3xl font-bold mb-3 sm:text-2xl">
-        Top Songs
-      </h3>
+    <section className='animate-leftToShow'>
+      <h3 className='text-white text-3xl font-bold mb-3 sm:text-2xl'>Top Songs</h3>
       <Filter
         setTimeRange={handleTimeRange}
         timeRangeTracks={timeRangeTracks}
-        typeContent="tracks"
+        typeContent='tracks'
       />
       {isFetchingTracks ? (
-        <div className="w-full h-[600px] flex justify-center items-center m-auto">
-          <Loading size="medium" />
+        <div className='w-full h-[600px] flex justify-center items-center m-auto'>
+          <Loading size='medium' />
         </div>
       ) : (
-        <ul className="flex flex-wrap gap-6 justify-around">
+        <ul className='flex flex-wrap gap-6 justify-around'>
           {tracks?.map((track, index) => (
             <Card
+              id={track.id}
               title={track.name}
               subTitle={track.album.name}
               image={track.album.images[0].url}
               key={track.id}
               ranked={true}
               position={index + 1}
+              externalUrl={track.external_urls.spotify}
             />
           ))}
         </ul>
