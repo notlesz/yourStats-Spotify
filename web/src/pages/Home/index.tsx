@@ -71,7 +71,7 @@ export default function Home() {
               </>
             )}
           </header>
-          <main className='flex flex-col gap-14 mb-10 px-4 '>
+          <main className='flex flex-col gap-16 mb-10 px-4 '>
             <Tracks />
             <Artists />
             <Playlists />
