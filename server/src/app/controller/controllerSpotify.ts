@@ -82,6 +82,7 @@ export const getUserTopContent = async (req: Request, res: Response) => {
       },
       params: {
         time_range,
+        limit: 50,
       },
     });
     return res.status(200).send(data);
