@@ -15,7 +15,7 @@ export function Filter({
   timeRangeArtists,
 }: PropsFilter) {
   return (
-    <div className='flex gap-3 mb-8 '>
+    <div className='flex gap-3'>
       <span
         className={classNames(
           'cursor-pointer text-white text-sm font-bold py-[5px] px-[10px] flex items-center justify-center rounded border border-white hover:text-black hover:bg-white transition-colors',
