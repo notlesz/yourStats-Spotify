@@ -82,6 +82,7 @@ export const getUserTopContent = async (req: Request, res: Response) => {
       },
       params: {
         time_range,
+        limit: 50,
       },
     });
     return res.status(200).send(data);
@@ -127,12 +128,12 @@ export const getCurrentlyPlaying = async (req: Request, res: Response) => {
   }
 
   try {
-    const { data } = await api.get("/me/player/currently-playing", {
+    const response = await api.get("/me/player/currently-playing", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    return res.status(200).send(data);
+    return res.status(response.status).send(response.data);
   } catch (error: any) {
     return res.status(error.response.data.error.status).json({
       message: error.response.data.error.message,

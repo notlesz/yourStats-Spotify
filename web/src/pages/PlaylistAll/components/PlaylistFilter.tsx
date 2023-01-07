@@ -1,22 +1,14 @@
 import classNames from 'classnames';
 import { useState } from 'react';
 import { IoMdArrowDown, IoMdArrowUp } from 'react-icons/io';
-import useMediaQuery from '../hooks/useMediaQuery';
-import { TimeRange } from '../hooks/useSpotify';
+import useMediaQuery from '../../../hooks/useMediaQuery';
 
-interface PropsFilter {
-  typeContent: 'tracks' | 'artists';
-  setTimeRange: (type: 'tracks' | 'artists', range: TimeRange) => void;
-  timeRangeTracks?: string;
-  timeRangeArtists?: string;
+interface Props {
+  filter: 'all' | 'others' | 'me';
+  handleFilter: (filter: 'all' | 'others' | 'me') => void;
 }
 
-export function Filter({
-  setTimeRange,
-  typeContent,
-  timeRangeTracks,
-  timeRangeArtists,
-}: PropsFilter) {
+export default function PlaylistFilter({ filter, handleFilter }: Props) {
   const [show, setShow] = useState(false);
   const matches = useMediaQuery('(max-width:580px)');
 
@@ -40,106 +32,83 @@ export function Filter({
           <ul className='py-1 text-sm text-gray-200'>
             <li
               onClick={() => {
-                typeContent === 'tracks'
-                  ? setTimeRange('tracks', 'long_term')
-                  : setTimeRange('artists', 'long_term');
+                handleFilter('all');
                 setShow(!show);
               }}
               className={classNames('hover:bg-gray-100 hover:cursor-pointer', {
-                'bg-white text-gray-600':
-                  (!timeRangeTracks && timeRangeArtists === 'long_term') ||
-                  (!timeRangeArtists && timeRangeTracks === 'long_term'),
+                'bg-white text-gray-600': filter === 'all',
               })}
             >
-              <span className='block px-4 py-2'>All time</span>
+              <span className='block px-4 py-2'>All</span>
             </li>
             <li
               onClick={() => {
-                typeContent === 'tracks'
-                  ? setTimeRange('tracks', 'medium_term')
-                  : setTimeRange('artists', 'medium_term');
+                handleFilter('me');
                 setShow(!show);
               }}
               className={classNames('hover:bg-gray-100 hover:cursor-pointer', {
-                'bg-white text-gray-600':
-                  (!timeRangeTracks && timeRangeArtists === 'medium_term') ||
-                  (!timeRangeArtists && timeRangeTracks === 'medium_term'),
+                'bg-white text-gray-600': filter === 'me',
               })}
             >
-              <span className='block px-4 py-2 '>6 Months</span>
+              <span className='block px-4 py-2 '>Me</span>
             </li>
             <li
               onClick={() => {
-                typeContent === 'tracks'
-                  ? setTimeRange('tracks', 'short_term')
-                  : setTimeRange('artists', 'short_term');
+                handleFilter('others');
                 setShow(!show);
               }}
               className={classNames('hover:bg-gray-100 hover:cursor-pointer', {
-                'bg-white text-gray-600':
-                  (!timeRangeTracks && timeRangeArtists === 'short_term') ||
-                  (!timeRangeArtists && timeRangeTracks === 'short_term'),
+                'bg-white text-gray-600': filter === 'others',
               })}
             >
-              <span className='block px-4 py-2'>Last Month</span>
+              <span className='block px-4 py-2'>Others</span>
             </li>
           </ul>
         </div>
       </div>
     );
   }
+
   return (
     <div className='flex gap-3'>
       <span
         className={classNames(
           'cursor-pointer text-white text-sm font-bold py-[5px] px-[10px] flex items-center justify-center rounded border border-white hover:text-black hover:bg-white transition-colors',
           {
-            'bg-white text-black':
-              (!timeRangeTracks && timeRangeArtists === 'long_term') ||
-              (!timeRangeArtists && timeRangeTracks === 'long_term'),
+            'bg-white text-black': filter === 'all',
           },
         )}
         onClick={() => {
-          typeContent === 'tracks'
-            ? setTimeRange('tracks', 'long_term')
-            : setTimeRange('artists', 'long_term');
+          handleFilter('all');
         }}
       >
-        All Time
+        All
       </span>
       <span
         className={classNames(
           'cursor-pointer text-white text-sm font-bold py-[5px] px-[10px] flex items-center justify-center rounded border border-white hover:text-black hover:bg-white transition-colors',
           {
-            'bg-white text-black':
-              (!timeRangeTracks && timeRangeArtists === 'medium_term') ||
-              (!timeRangeArtists && timeRangeTracks === 'medium_term'),
+            'bg-white text-black': filter === 'me',
           },
         )}
         onClick={() => {
-          typeContent === 'tracks'
-            ? setTimeRange('tracks', 'medium_term')
-            : setTimeRange('artists', 'medium_term');
+          handleFilter('me');
         }}
       >
-        6 Months
+        Me
       </span>
       <span
         className={classNames(
           'cursor-pointer text-white text-sm font-bold py-[5px] px-[10px] flex items-center justify-center rounded border border-white hover:text-black hover:bg-white transition-colors',
           {
-            'bg-white text-black':
-              (!timeRangeTracks && timeRangeArtists === 'short_term') ||
-              (!timeRangeArtists && timeRangeTracks === 'short_term'),
+            'bg-white text-black': filter === 'others',
           },
         )}
         onClick={() => {
-          typeContent === 'tracks'
-            ? setTimeRange('tracks', 'short_term')
-            : setTimeRange('artists', 'short_term');
+          handleFilter('others');
         }}
       >
-        Last Month
+        Others
       </span>
     </div>
   );

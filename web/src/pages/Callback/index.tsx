@@ -32,12 +32,8 @@ export default function LoginCallback() {
   }, [token]);
 
   return (
-    <>
-      {!user && (
-        <div className='h-screen w-screen flex justify-center items-center'>
-          <Loading />
-        </div>
-      )}
-    </>
+    <div className='h-screen w-screen flex justify-center items-center'>
+      <Loading />
+    </div>
   );
 }
