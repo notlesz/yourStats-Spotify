@@ -17,8 +17,9 @@ export interface Tracks {
     name: string;
   }[];
   href: string;
+  preview_url: string;
 }
 
 export interface CurrentlyPlaying {
-  item: Tracks
+  item: Tracks;
 }
