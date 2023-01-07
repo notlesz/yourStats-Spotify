@@ -34,13 +34,10 @@ export function Router() {
       <ToastContainer
         position='top-right'
         autoClose={3000}
+        pauseOnFocusLoss={false}
+        pauseOnHover={false}
         hideProgressBar={false}
-        newestOnTop={false}
         closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
         theme='dark'
         limit={2}
       />

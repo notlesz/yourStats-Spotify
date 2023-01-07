@@ -18,16 +18,16 @@ export default function Login() {
   };
 
   return (
-    <div className='h-screen w-full flex flex-col gap-20 justify-center items-center bg-black text-white sm:gap-10 px-4'>
+    <div className='h-screen w-full flex flex-col gap-20 justify-center items-center bg-black text-white xs:gap-10 px-4'>
       <div>
         <p className='text-4xl font-normal font-russoOne text-green-600 text-center mb-4 xs:text-xl'>
           Hello There!
         </p>
-        <h2 className='text-4xl font-bold text-center sm:text-xl'>See your stats on Spotify</h2>
+        <h2 className='text-4xl font-bold text-center xs:text-xl'>See your stats on Spotify</h2>
       </div>
       <button
         type='button'
-        className='font-bold flex items-center gap-2 bg-green-600 rounded-lg px-4 py-3 cursor-pointer hover:bg-green-700 sm:px-3 sm:py-2 sm:text-sm'
+        className='font-bold flex items-center gap-2 bg-green-600 rounded-lg px-4 py-3 cursor-pointer hover:bg-green-700 xs:px-3 sm:py-2 xs:text-sm'
         onClick={() => {
           if (user && token) {
             navigate('/home');
@@ -40,7 +40,7 @@ export default function Login() {
           "Let's Go!"
         ) : (
           <>
-            <FaSpotify className='w-5 h-5 sm:w-4 sm:h-4' />
+            <FaSpotify className='w-5 h-5 sx:w-4 xs:h-4' />
             Sign In
           </>
         )}
