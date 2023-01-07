@@ -5,7 +5,7 @@ import removeAllKeys from '../utils/removeKeys';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_SERVER,
-  timeout: 10 * 1000,
+  timeout: 30 * 1000,
 });
 
 const { handleToast } = useToast();
