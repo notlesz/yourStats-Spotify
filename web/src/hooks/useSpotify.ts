@@ -24,11 +24,8 @@ export default function useSpotify() {
         try {
           const { data } = await getUserPlaylists(token);
           return data.items;
-        } catch (error: any) {
-          if (error.response.status === 401) {
-            handleToast('error', error.response.message);
-            logout();
-          }
+        } catch (error) {
+          console.log(error);
         }
       }
     },
@@ -41,8 +38,12 @@ export default function useSpotify() {
     ['tracks', timeRangeTracks],
     async () => {
       if (token) {
-        const { data } = await getTopContent('tracks', timeRangeTracks, token);
-        return data.items;
+        try {
+          const { data } = await getTopContent('tracks', timeRangeTracks, token);
+          return data.items;
+        } catch (error) {
+          console.log(error);
+        }
       }
     },
     {
@@ -54,8 +55,12 @@ export default function useSpotify() {
     ['artists', timeRangeArtists],
     async () => {
       if (token) {
-        const { data } = await getTopContent('artists', timeRangeArtists, token);
-        return data.items;
+        try {
+          const { data } = await getTopContent('artists', timeRangeArtists, token);
+          return data.items;
+        } catch (error) {
+          console.log(error);
+        }
       }
     },
     {
@@ -70,11 +75,8 @@ export default function useSpotify() {
         try {
           const { data } = await getCurrentlyPlaying(token);
           return data.item;
-        } catch (error: any) {
-          if (error.response.status === 401) {
-            handleToast('error', error.response.message);
-            logout();
-          }
+        } catch (error) {
+          console.log(error);
         }
       }
     },
