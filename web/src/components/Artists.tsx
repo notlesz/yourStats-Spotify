@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+import useMediaQuery from '../hooks/useMediaQuery';
 import useSpotify from '../hooks/useSpotify';
 import Card from './Card';
 import { Filter } from './Filter';
@@ -5,10 +7,13 @@ import Loading from './Loading';
 
 export default function Artists() {
   const { artists, handleTimeRange, isFetchingArtists, timeRangeArtists } = useSpotify();
+  const navigate = useNavigate();
+  const matches = useMediaQuery('(max-width:768px)');
+
   return (
     <section className='animate-leftToShow'>
-      <div className='flex items-center justify-between mb-8 sm:flex-col sm:gap-4'>
-        <h3 className='text-white text-3xl font-bold sm:text-2xl'>Top Artist</h3>
+      <div className='flex items-center justify-between mb-8'>
+        <h3 className='text-white text-3xl font-bold md:text-2xl font-russoOne'>Top Artist</h3>
         <Filter
           setTimeRange={handleTimeRange}
           typeContent='artists'
@@ -21,8 +26,8 @@ export default function Artists() {
         </div>
       ) : (
         <>
-          <ul className='flex flex-wrap gap-6 justify-around'>
-            {artists?.slice(0, 10).map((artist, index) => (
+          <ul className='flex flex-wrap gap-8 justify-around'>
+            {artists?.slice(0, matches ? 5 : 10).map((artist, index) => (
               <Card
                 id={artist.id}
                 title={artist.name}
@@ -35,7 +40,10 @@ export default function Artists() {
             ))}
           </ul>
           <div className='flex justify-center mt-10'>
-            <button className='px-4 py-1 bg-white text-black rounded uppercase font-medium'>
+            <button
+              className='px-4 py-1 bg-white text-black rounded uppercase font-medium'
+              onClick={() => navigate('/top/artists')}
+            >
               See All
             </button>
           </div>

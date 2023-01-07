@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 
 interface CardProps {
   title: string;
@@ -21,8 +21,6 @@ export default function Card({
   externalUrl,
   id,
 }: CardProps) {
-  const navigate = useNavigate();
-
   return (
     <li
       className='text-white flex items-center justify-around animate-hideToShow hover:text-green-500 hover:cursor-pointer'
@@ -31,26 +29,25 @@ export default function Card({
       <div
         className={`flex flex-col items-center ${
           ranked ? 'justify-start' : 'justify-center'
-        } gap-3 bg-gray-600 rounded w-[200px] min-h-[280px] py-4 px-1 self-start`}
+        } gap-3 bg-gray-600 rounded w-[200px] min-h-[280px] py-4 px-1 self-start md:min-h-0 md:py-6`}
       >
         {ranked && position ? (
           <span
-            className={`text-gray-300 font-bold self-center ${
-              ranked && position <= 3
-                ? `w-7 h-7 ${
-                    position === 1
-                      ? 'bg-gold-500'
-                      : position === 2
-                      ? 'bg-silver-500'
-                      : 'bg-bronze-500'
-                  } flex items-center justify-center rounded-full`
-                : ''
-            }`}
+            className={classNames('text-gray-300 font-bold self-center', {
+              'w-7 h-7 flex items-center justify-center rounded-full': ranked && position <= 3,
+              'bg-gold-500': position === 1,
+              'bg-silver-500': position === 2,
+              'bg-bronze-500': position === 3,
+            })}
           >
             {position}º
           </span>
         ) : null}
-        <img className='w-[150px] h-[150px] rounded-full object-cover' src={image} alt={title} />
+        <img
+          className='w-[150px] h-[150px] rounded-full object-cover md:w-[100px] md:h-[100px]'
+          src={image}
+          alt={title}
+        />
         <span className='font-bold text-sm text-center'>{title}</span>
         {subTitle ? <span className='text-sm text-gray-100 text-center'>{subTitle}</span> : null}
         {total ? <span className='text-sm text-gray-100'>Tracks: {total}</span> : null}

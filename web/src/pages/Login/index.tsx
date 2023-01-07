@@ -1,6 +1,13 @@
 import { FaSpotify } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import useSpotify from '../../hooks/useSpotify';
 
 export default function Login() {
+  const { user } = useSpotify();
+  const token = localStorage.getItem('token_user');
+
+  const navigate = useNavigate();
+
   const redirectToLogin = () => {
     const client_id = import.meta.env.VITE_API_CLIENT_ID;
     const redirect_uri = import.meta.env.VITE_API_REDIRECT_URI;
@@ -21,10 +28,22 @@ export default function Login() {
       <button
         type='button'
         className='font-bold flex items-center gap-2 bg-green-600 rounded-lg px-4 py-3 cursor-pointer hover:bg-green-700 sm:px-3 sm:py-2 sm:text-sm'
-        onClick={redirectToLogin}
+        onClick={() => {
+          if (user && token) {
+            navigate('/home');
+          } else {
+            redirectToLogin();
+          }
+        }}
       >
-        <FaSpotify className='w-5 h-5 sm:w-4 sm:h-4' />
-        Sign In
+        {user && token ? (
+          "Let's Go!"
+        ) : (
+          <>
+            <FaSpotify className='w-5 h-5 sm:w-4 sm:h-4' />
+            Sign In
+          </>
+        )}
       </button>
     </div>
   );
