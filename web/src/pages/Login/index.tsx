@@ -20,7 +20,7 @@ export default function Login() {
   return (
     <div className='h-screen w-full flex flex-col gap-20 justify-center items-center bg-black text-white sm:gap-10 px-4'>
       <div>
-        <p className='text-4xl font-normal font-russoOne text-green-600 text-center mb-4 sm:text-xl'>
+        <p className='text-4xl font-normal font-russoOne text-green-600 text-center mb-4 xs:text-xl'>
           Hello There!
         </p>
         <h2 className='text-4xl font-bold text-center sm:text-xl'>See your stats on Spotify</h2>
