@@ -4,7 +4,12 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        sm: { max: '695px' },
+        xs: {
+          max: '500px',
+        },
+        md: {
+          max: '768px',
+        },
       },
       borderColor: {
         gray: {
