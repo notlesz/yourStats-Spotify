@@ -1,9 +1,11 @@
 import Router from "express";
 import {
   getAccessToken,
-  getCurrentlyPlaying, getUserData,
+  getCurrentlyPlaying,
+  getPlaylistById,
+  getUserData,
   getUserPlaylists,
-  getUserTopContent
+  getUserTopContent,
 } from "./app/controller/controllerSpotify";
 
 export const routes = Router();
@@ -17,3 +19,5 @@ routes.get("/user/top", getUserTopContent);
 routes.get("/user/playlists", getUserPlaylists);
 
 routes.get("/user/currently-playing", getCurrentlyPlaying);
+
+routes.get("/playlists/:id", getPlaylistById);
