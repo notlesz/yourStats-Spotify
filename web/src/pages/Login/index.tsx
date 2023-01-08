@@ -20,6 +20,7 @@ export default function Login() {
   return (
     <div className='h-screen w-full flex flex-col gap-20 justify-center items-center bg-black text-white xs:gap-10 px-4'>
       <div>
+        <img src='/logo.png' alt='Logo' className='m-auto' />
         <p className='text-4xl font-normal font-russoOne text-green-600 text-center mb-4 xs:text-xl'>
           Hello There!
         </p>
