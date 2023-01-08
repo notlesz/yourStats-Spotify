@@ -1,32 +1,33 @@
 import { useContext, useState } from 'react';
 import { useQuery } from 'react-query';
 import { UserContext } from '../context/userContext';
-import { getCurrentlyPlaying, getTopContent, getUserPlaylists } from '../services/api';
+import {
+  getCurrentlyPlaying,
+  getPlaylistById,
+  getTopContent,
+  getUserPlaylists,
+} from '../services/api';
 import { Artists } from '../types/artists';
 import { Playlists } from '../types/playlists';
 import { Tracks } from '../types/tracks';
-import useToast from './useToast';
 
 export type TimeRange = 'medium_term' | 'long_term' | 'short_term';
 
 export default function useSpotify() {
-  const { user, logout } = useContext(UserContext);
   const [timeRangeTracks, setTimeRangeTracks] = useState<TimeRange>('medium_term');
   const [timeRangeArtists, setTimeRangeArtists] = useState<TimeRange>('medium_term');
+  const [playlistId, setPlaylistId] = useState<string | null>(null);
+
+  const { user } = useContext(UserContext);
 
   const token = localStorage.getItem('token_user') || null;
-  const { handleToast } = useToast();
 
   const { data: playlist, isFetching: isFetchingPlaylist } = useQuery<Playlists[]>(
     'playlist',
     async () => {
       if (token) {
-        try {
-          const { data } = await getUserPlaylists(token);
-          return data.items;
-        } catch (error) {
-          console.log(error);
-        }
+        const { data } = await getUserPlaylists(token);
+        return data.items;
       }
     },
     {
@@ -38,12 +39,8 @@ export default function useSpotify() {
     ['tracks', timeRangeTracks],
     async () => {
       if (token) {
-        try {
-          const { data } = await getTopContent('tracks', timeRangeTracks, token);
-          return data.items;
-        } catch (error) {
-          console.log(error);
-        }
+        const { data } = await getTopContent('tracks', timeRangeTracks, token);
+        return data.items;
       }
     },
     {
@@ -55,12 +52,8 @@ export default function useSpotify() {
     ['artists', timeRangeArtists],
     async () => {
       if (token) {
-        try {
-          const { data } = await getTopContent('artists', timeRangeArtists, token);
-          return data.items;
-        } catch (error) {
-          console.log(error);
-        }
+        const { data } = await getTopContent('artists', timeRangeArtists, token);
+        return data.items;
       }
     },
     {
@@ -72,16 +65,25 @@ export default function useSpotify() {
     'currentlyPlaying',
     async () => {
       if (token && user) {
-        try {
-          const { data } = await getCurrentlyPlaying(token);
-          return data.item;
-        } catch (error) {
-          console.log(error);
-        }
+        const { data } = await getCurrentlyPlaying(token);
+        return data.item;
       }
     },
     {
       refetchInterval: 1000 * 30, // 30 seconds
+    },
+  );
+
+  const { data: playlistById, isFetching: isFetchingPlaylistById } = useQuery<Playlists>(
+    ['playlistId', playlistId],
+    async () => {
+      if (playlistId && token) {
+        const { data } = await getPlaylistById(playlistId, token);
+        return data;
+      }
+    },
+    {
+      staleTime: 3000 * 60,
     },
   );
 
@@ -97,11 +99,16 @@ export default function useSpotify() {
     }
   };
 
+  const handlePlaylistId = (id: string | null) => {
+    setPlaylistId(id);
+  };
+
   return {
     artists,
     user,
     tracks,
     playlist,
+    playlistById,
     currentlyPlaying,
     timeRangeArtists,
     timeRangeTracks,
@@ -110,5 +117,7 @@ export default function useSpotify() {
     isFetchingCurrently,
     isFetchingPlaylist,
     isFetchingTracks,
+    isFetchingPlaylistById,
+    handlePlaylistId,
   };
 }

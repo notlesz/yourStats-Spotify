@@ -140,3 +140,21 @@ export const getCurrentlyPlaying = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getPlaylistById = async (req: Request, res: Response) => {
+  const token = req.headers.authorization;
+  const { id } = req.params;
+
+  try {
+    const response = await api.get(`/playlists/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.status(response.status).send(response.data);
+  } catch (error: any) {
+    return res.status(error.response.data.error.status).json({
+      message: error.response.data.error.message,
+    });
+  }
+};

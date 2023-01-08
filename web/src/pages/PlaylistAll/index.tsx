@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
-import { FaSpotify } from 'react-icons/fa';
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import { IoEyeSharp } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import useSpotify from '../../hooks/useSpotify';
@@ -30,7 +30,7 @@ export default function PlaylistAll() {
 
   return (
     <main className='mb-8 animate-leftToShow p-4'>
-      <h4 className='text-center text-white text-3xl font-russoOne mb-4'>Public Playlists</h4>
+      <h4 className='text-center text-white text-3xl font-russoOne mb-8'>Public Playlists</h4>
       <div className='flex items-center justify-between mb-8'>
         <button
           className='flex items-center gap-2 text-white text-lg font-bold hover:text-green-600'
@@ -62,11 +62,11 @@ export default function PlaylistAll() {
                 type='button'
                 className='font-bold flex items-center gap-2 text-sm text-green-600 px-3 py-2 cursor-pointer hover:text-green-800 md:text-xs'
                 onClick={() => {
-                  window.open(playlist.external_urls.spotify, '__blank');
+                  navigate(`/playlists/${playlist.id}`);
                 }}
               >
-                <FaSpotify className='w-5 h-5' />
-                {!matches && 'Open in Spotify'}
+                <IoEyeSharp className='w-5 h-5' />
+                {!matches && 'View'}
               </button>
             </div>
             {index + 1 === filteredAllPlaylists.length ? null : <hr className='border-gray-450' />}

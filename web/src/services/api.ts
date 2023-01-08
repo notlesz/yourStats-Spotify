@@ -20,6 +20,13 @@ api.interceptors.response.use(
         removeAllKeys();
       }, 2000);
     }
+    if (error.response.status >= 500) {
+      handleToast('error', 'Falha na comunicação com servidor, tente mais tarde!');
+      setTimeout(() => {
+        document.location.href = document.location.origin;
+        removeAllKeys();
+      }, 2000);
+    }
     return error;
   },
 );
@@ -60,6 +67,13 @@ export const getUserPlaylists = async (token: string): Promise<AxiosResponse> =>
 
 export const getCurrentlyPlaying = async (token: string): Promise<AxiosResponse> =>
   await api.get('/user/currently-playing', {
+    headers: {
+      Authorization: token,
+    },
+  });
+
+export const getPlaylistById = async (id: string, token: string): Promise<AxiosResponse> =>
+  await api.get(`/playlists/${id}`, {
     headers: {
       Authorization: token,
     },

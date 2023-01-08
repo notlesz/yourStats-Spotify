@@ -6,6 +6,7 @@ export interface Tracks {
   id: string;
   album: {
     name: string;
+    href: string;
     images: {
       height: number;
       width: number;
@@ -15,7 +16,9 @@ export interface Tracks {
   artists: {
     external_urls: { spotify: string };
     name: string;
+    href: string;
   }[];
+  duration_ms: number;
   href: string;
   preview_url: string;
 }

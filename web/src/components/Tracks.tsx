@@ -29,7 +29,6 @@ export default function Tracks() {
           <ul className='flex flex-wrap gap-8 justify-around'>
             {tracks?.slice(0, matches ? 5 : 10).map((track, index) => (
               <Card
-                id={track.id}
                 title={track.name}
                 subTitle={track.album.name}
                 image={track.album.images[0].url}

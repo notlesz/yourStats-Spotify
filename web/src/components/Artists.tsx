@@ -29,7 +29,6 @@ export default function Artists() {
           <ul className='flex flex-wrap gap-8 justify-around'>
             {artists?.slice(0, matches ? 5 : 10).map((artist, index) => (
               <Card
-                id={artist.id}
                 title={artist.name}
                 image={artist.images[0].url}
                 ranked={true}
