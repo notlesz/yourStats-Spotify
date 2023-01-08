@@ -1,3 +1,5 @@
+import { Tracks } from './tracks';
+
 export interface Playlists {
   name: string;
   id: string;
@@ -6,18 +8,37 @@ export interface Playlists {
   external_urls: {
     spotify: string;
   };
+  followers: {
+    href: string;
+    total: number;
+  };
   href: string;
-  owner:{
+  owner: {
     display_name: string;
     id: string;
-  }
-  images:{
+  };
+  images: {
     height: number;
     url: string;
     width: number;
-  }[]
+  }[];
   tracks: {
     href: string;
-    total:  number
-  }
+    total: number;
+    limit: number;
+    items?: {
+      added_at: string;
+      added_by: {
+        external_urls: {
+          spotify: string;
+        };
+        href: string;
+        id: string;
+        type: string;
+        uri: string;
+      };
+      isLocal: boolean;
+      track: Tracks;
+    }[];
+  };
 }
