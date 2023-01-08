@@ -1,4 +1,6 @@
 import classNames from 'classnames';
+import { useNavigate } from 'react-router-dom';
+import redirectTo from '../utils/document';
 
 interface CardProps {
   title: string;
@@ -8,7 +10,7 @@ interface CardProps {
   ranked: boolean;
   position?: number;
   externalUrl?: string;
-  id: string;
+  id?: string;
 }
 
 export default function Card({
@@ -21,15 +23,22 @@ export default function Card({
   externalUrl,
   id,
 }: CardProps) {
+  const navigate = useNavigate();
+
   return (
     <li
       className='text-white flex items-center justify-around animate-hideToShow hover:text-green-500 hover:cursor-pointer'
-      onClick={() => window.open(externalUrl, '_blank')}
+      onClick={() => {
+        if (id) {
+          return navigate(`/playlists/${id}`);
+        }
+        redirectTo(externalUrl);
+      }}
     >
       <div
         className={`flex flex-col items-center ${
           ranked ? 'justify-start' : 'justify-center'
-        } gap-3 bg-gray-600 rounded w-[200px] min-h-[280px] py-4 px-1 self-start md:min-h-0 md:py-6`}
+        } gap-3 bg-gray-600 rounded w-[230px] min-h-[280px] py-4 px-1 self-start md:min-h-0 md:py-6`}
       >
         {ranked && position ? (
           <span

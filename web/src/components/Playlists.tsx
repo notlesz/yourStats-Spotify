@@ -14,10 +14,10 @@ export default function Playlists() {
 
   return (
     <section className='animate-leftToShow'>
-      <h3 className='text-white text-3xl font-bold mb-8 md:text-2xl md:text-center font-russoOne'>
+      <h3 className='text-white text-3xl font-russoOne font-bold mb-8 md:text-2xl md:text-center '>
         Public Playlists
       </h3>
-      <ul className='flex flex-wrap gap-8 justify-between md:justify-center'>
+      <ul className='flex flex-wrap gap-8 justify-around md:justify-center'>
         {playlistFilter?.slice(0, matches ? 5 : 10).map((playlist) => (
           <Card
             id={playlist.id}
