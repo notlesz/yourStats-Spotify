@@ -23,7 +23,7 @@ export default function Playlists() {
             id={playlist.id}
             key={playlist.id}
             title={playlist.name}
-            image={playlist.images[0].url}
+            image={playlist.images[0]?.url}
             total={playlist.tracks.total}
             externalUrl={playlist.external_urls.spotify}
             ranked={false}

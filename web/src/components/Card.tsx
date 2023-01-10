@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { MdLibraryMusic } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import redirectTo from '../utils/document';
 
@@ -52,11 +53,18 @@ export default function Card({
             {position}º
           </span>
         ) : null}
-        <img
-          className='w-[150px] h-[150px] rounded-full object-cover md:w-[100px] md:h-[100px]'
-          src={image}
-          alt={title}
-        />
+        {image ? (
+          <img
+            className='w-[150px] h-[150px] rounded-full object-cover md:w-[100px] md:h-[100px]'
+            src={image}
+            alt={title}
+          />
+        ) : (
+          <div className='w-[150px] h-[150px] rounded-full md:w-[100px] md:h-[100px] bg-black flex justify-center items-center'>
+            <MdLibraryMusic className='w-6 h-6' />
+          </div>
+        )}
+
         <span className='font-bold text-sm text-center'>{title}</span>
         {subTitle ? <span className='text-sm text-gray-100 text-center'>{subTitle}</span> : null}
         {total ? <span className='text-sm text-gray-100'>Tracks: {total}</span> : null}
