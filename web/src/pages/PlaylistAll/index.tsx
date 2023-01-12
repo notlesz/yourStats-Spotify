@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { IoEyeSharp } from 'react-icons/io5';
+import { MdLibraryMusic } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import useSpotify from '../../hooks/useSpotify';
@@ -49,11 +50,18 @@ export default function PlaylistAll() {
                 <span className='text-white font-semibold md:text-xs flex gap-1'>
                   {index + 1} <strong>#</strong>
                 </span>
-                <img
-                  src={playlist.images[0].url}
-                  alt=''
-                  className='w-[80px] h-[80px] rounded-md object-cover md:w-[60px] md:h-[60px] xs:w-[40px] xs:h-[40px]'
-                />
+                {playlist.images.length > 0 ? (
+                  <img
+                    src={playlist.images[0].url}
+                    alt=''
+                    className='w-[80px] h-[80px] rounded-md object-cover md:w-[60px] md:h-[60px] xs:w-[40px] xs:h-[40px]'
+                  />
+                ) : (
+                  <div className='w-[80px] h-[80px] rounded-md md:w-[60px] md:h-[60px] xs:w-[40px] xs:h-[40px] bg-black flex justify-center items-center'>
+                    <MdLibraryMusic className='w-6 h-6 text-white' />
+                  </div>
+                )}
+
                 <p className='text-white font-semibold md:text-sm max-w-sm xs:max-w-[90px] md:max-w-[200px] text-ellipsis whitespace-nowrap overflow-hidden '>
                   {playlist.name}
                 </p>
