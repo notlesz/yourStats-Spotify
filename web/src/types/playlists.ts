@@ -16,6 +16,9 @@ export interface Playlists {
   owner: {
     display_name: string;
     id: string;
+    external_urls: {
+      spotify: string;
+    };
   };
   images: {
     height: number;
