@@ -18,7 +18,7 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
   ) : (
     <div className='w-full min-h-screen'>
       <Header />
-      <main className='max-w-[1350px] mx-auto my-20 flex flex-col justify-center gap-[30px] relative'>
+      <main className='max-w-[1350px] mx-auto flex flex-col justify-center gap-[30px] relative'>
         {children}
         <ScrollButton />
       </main>

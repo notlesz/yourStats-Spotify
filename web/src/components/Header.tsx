@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useContext, useState } from 'react';
-import { MdMenu } from 'react-icons/md';
+import { MdClose, MdMenu } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
 import { UserContext } from '../context/userContext';
 import useMediaQuery from '../hooks/useMediaQuery';
@@ -32,10 +32,14 @@ export default function Header() {
                 className='flex items-center p-2 text-sm relative text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 '
                 onClick={() => setShowMenu(!showMenu)}
               >
-                <MdMenu className='w-[30px] h-[30px] text-white' />
+                {showMenu ? (
+                  <MdClose className='w-[30px] h-[30px] text-white' />
+                ) : (
+                  <MdMenu className='w-[30px] h-[30px] text-white' />
+                )}
               </button>
               {showMenu && (
-                <ul className='flex flex-col items-center gap-3 w-full mb-4 bg-gray-600 absolute right-0 mt-2 py-4'>
+                <ul className='flex flex-col text-lg items-center gap-3 w-full mb-4 bg-gray-600 absolute right-0 mt-2 py-4'>
                   <li>
                     <Link
                       to='/home'
@@ -84,7 +88,7 @@ export default function Header() {
               )}
             </div>
           ) : (
-            <ul className='flex gap-3'>
+            <ul className='flex gap-3 text-lg'>
               <li>
                 <Link
                   to='/home'

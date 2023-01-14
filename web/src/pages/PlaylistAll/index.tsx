@@ -30,8 +30,10 @@ export default function PlaylistAll() {
   });
 
   return (
-    <div className='animate-leftToShow px-4'>
-      <h4 className='text-center text-white text-3xl font-russoOne mb-8'>Public Playlists</h4>
+    <div className='animate-leftToShow px-4 my-20 md:my-10'>
+      <h4 className='text-center text-white font-bold text-4xl md:text-2xl mb-8'>
+        Public Playlists
+      </h4>
       <div className='flex items-center justify-between mb-8'>
         <button
           className='flex items-center gap-2 text-white text-lg font-bold hover:text-green-600'

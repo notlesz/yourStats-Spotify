@@ -26,7 +26,7 @@ export default function SinglePlaylist() {
   }, [id]);
 
   return (
-    <main className='animate-leftToShow p-4'>
+    <main className='animate-leftToShow p-4 mb-20 mt-5 md:mb-10'>
       <div className='flex items-center justify-between mb-8'>
         <button
           className='flex items-center gap-2 text-white text-lg font-bold hover:text-green-600'

@@ -25,8 +25,8 @@ export default function TopContent() {
   const matches = useMediaQuery('(max-width:580px)');
 
   return (
-    <main className='animate-leftToShow p-4'>
-      <h4 className='text-white text-center text-3xl font-bold mb-8 sm:text-2xl font-russoOne capitalize'>
+    <div className='animate-leftToShow p-4 my-20 md:my-10'>
+      <h4 className='text-white text-center text-4xl font-bold mb-8 md:text-2xl capitalize'>
         Top {type}
       </h4>
       <div className='flex items-center justify-between mb-8'>
@@ -155,6 +155,6 @@ export default function TopContent() {
           </>
         )}
       </section>
-    </main>
+    </div>
   );
 }

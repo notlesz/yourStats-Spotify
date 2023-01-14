@@ -67,7 +67,7 @@ export default function Card({
 
         <span className='font-bold text-sm text-center'>{title}</span>
         {subTitle ? <span className='text-sm text-gray-100 text-center'>{subTitle}</span> : null}
-        <span className='text-sm text-gray-100'>Tracks: {total || 0}</span>
+        {total ? <span className='text-sm text-gray-100'>Tracks: {total}</span> : null}
       </div>
     </li>
   );

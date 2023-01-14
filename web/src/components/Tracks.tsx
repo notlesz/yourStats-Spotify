@@ -13,7 +13,7 @@ export default function Tracks() {
   return (
     <section className='animate-leftToShow'>
       <div className='flex items-center justify-between mb-8'>
-        <h3 className='text-white text-3xl font-bold md:text-2xl font-russoOne'>Top Tracks</h3>
+        <h3 className='text-white text-3xl font-bold md:text-2xl'>Top Tracks</h3>
         <Filter
           setTimeRange={handleTimeRange}
           timeRangeTracks={timeRangeTracks}
