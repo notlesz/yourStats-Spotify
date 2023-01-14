@@ -1,14 +1,13 @@
 import { Fragment, useEffect } from 'react';
 import { BiTime } from 'react-icons/bi';
-import { FaSpotify } from 'react-icons/fa';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { MdLibraryMusic } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
-import Loading from '../../components/Loading';
+import { Loading } from '../../components';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import useSpotify from '../../hooks/useSpotify';
 import { msToTime } from '../../utils/conversions';
-import redirectTo from '../../utils/document';
+import { redirectTo } from '../../utils/document';
 
 export default function SinglePlaylist() {
   const { handlePlaylistId, playlistById, isFetchingPlaylistById } = useSpotify();
@@ -27,7 +26,7 @@ export default function SinglePlaylist() {
   }, [id]);
 
   return (
-    <main className='mb-8 animate-leftToShow p-4'>
+    <main className='animate-leftToShow p-4'>
       <div className='flex items-center justify-between mb-8'>
         <button
           className='flex items-center gap-2 text-white text-lg font-bold hover:text-green-600'
@@ -52,7 +51,7 @@ export default function SinglePlaylist() {
                       {playlistById.images.length > 0 ? (
                         <img
                           src={playlistById?.images[0].url}
-                          alt=''
+                          alt={playlistById?.name}
                           className='w-[150px] h-[150px] md:w-[120px] md:h-[120px] xs:w-[80px] xs:h-[80px] object-cover rounded'
                         />
                       ) : (
@@ -96,8 +95,8 @@ export default function SinglePlaylist() {
                       className='font-bold flex items-center gap-2 text-base text-white cursor-pointer hover:text-green-600 mt-3 md:self-center'
                       onClick={() => redirectTo(playlistById?.external_urls.spotify)}
                     >
-                      <FaSpotify className='w-4 h-4' />
-                      Open in Spotify
+                      <img src='/Spotify_Icon_White.png' className='w-5 h-5' />
+                      Open Spotify
                     </button>
                   </div>
                   {playlistById.tracks?.items?.length! > 0 ? (
@@ -115,17 +114,17 @@ export default function SinglePlaylist() {
                                 </span>
                                 <img
                                   src={track.album?.images[0].url}
-                                  alt=''
+                                  alt={track.album?.name}
                                   className='w-[80px] h-[80px] rounded-md object-cover md:w-[60px] md:h-[60px] xs:w-[40px] xs:h-[40px]'
                                 />
                                 <p
-                                  className='text-white font-semibold md:text-sm max-w-sm xs:max-w-[90px] md:max-w-[200px] text-ellipsis whitespace-nowrap overflow-hidden hover:cursor-pointer hover:underline'
+                                  className='text-white font-semibold md:text-sm max-w-sm xs:max-w-[50px] md:max-w-[200px] text-ellipsis whitespace-nowrap overflow-hidden hover:cursor-pointer hover:underline'
                                   onClick={() => redirectTo(track.external_urls.spotify)}
                                 >
                                   {track.name}
                                 </p>
                                 <p
-                                  className='text-gray-100 text-sm font-semibold hover:cursor-pointer hover:underline'
+                                  className='text-gray-100 text-sm font-semibold max-w-sm xs:max-w-[70px] md:max-w-[200px] text-ellipsis whitespace-nowrap overflow-hidden hover:cursor-pointer hover:underline'
                                   onClick={() => redirectTo(track.artists[0].external_urls.spotify)}
                                 >
                                   {track.artists[0].name}
@@ -152,7 +151,7 @@ export default function SinglePlaylist() {
                         className='text-center uppercase text-sm text-white font-medium hover:cursor-pointer hover:text-green-500 flex items-center gap-2'
                         onClick={() => redirectTo(playlistById?.external_urls.spotify)}
                       >
-                        <FaSpotify className='w-5 h-5' />
+                        <img src='/Spotify_Icon_White.png' className='w-5 h-5' />
                         See the full list on Spotify
                       </p>
                     </div>

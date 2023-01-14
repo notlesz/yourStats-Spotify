@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '../hooks/useMediaQuery';
 import useSpotify from '../hooks/useSpotify';
+import { Filter } from './';
 import Card from './Card';
-import { Filter } from './Filter';
 import Loading from './Loading';
 
 export default function Tracks() {

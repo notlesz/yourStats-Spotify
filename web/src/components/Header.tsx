@@ -5,8 +5,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { UserContext } from '../context/userContext';
 import useMediaQuery from '../hooks/useMediaQuery';
 import useSpotify from '../hooks/useSpotify';
+import { Player } from './';
 import Loading from './Loading';
-import { Player } from './Player';
 
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
@@ -19,7 +19,7 @@ export default function Header() {
   const location = useLocation();
 
   return (
-    <header className='bg-gray-600 pb-8 mb-12'>
+    <header className='bg-gray-600 pb-8'>
       <div className='max-w-[1350px] mx-auto my-0 px-4'>
         <nav className='flex justify-between items-center mb-4'>
           <Link to='/home'>

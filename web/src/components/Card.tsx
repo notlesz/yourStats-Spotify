@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { MdLibraryMusic } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import redirectTo from '../utils/document';
+import { redirectTo } from '../utils/document';
 
 interface CardProps {
   title: string;
@@ -67,7 +67,7 @@ export default function Card({
 
         <span className='font-bold text-sm text-center'>{title}</span>
         {subTitle ? <span className='text-sm text-gray-100 text-center'>{subTitle}</span> : null}
-        {total ? <span className='text-sm text-gray-100'>Tracks: {total}</span> : null}
+        <span className='text-sm text-gray-100'>Tracks: {total || 0}</span>
       </div>
     </li>
   );

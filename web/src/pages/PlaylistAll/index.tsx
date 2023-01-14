@@ -30,7 +30,7 @@ export default function PlaylistAll() {
   });
 
   return (
-    <main className='mb-8 animate-leftToShow p-4'>
+    <div className='animate-leftToShow px-4'>
       <h4 className='text-center text-white text-3xl font-russoOne mb-8'>Public Playlists</h4>
       <div className='flex items-center justify-between mb-8'>
         <button
@@ -53,7 +53,7 @@ export default function PlaylistAll() {
                 {playlist.images.length > 0 ? (
                   <img
                     src={playlist.images[0].url}
-                    alt=''
+                    alt={playlist.name}
                     className='w-[80px] h-[80px] rounded-md object-cover md:w-[60px] md:h-[60px] xs:w-[40px] xs:h-[40px]'
                   />
                 ) : (
@@ -73,7 +73,7 @@ export default function PlaylistAll() {
                   navigate(`/playlists/${playlist.id}`);
                 }}
               >
-                <IoEyeSharp className='w-5 h-5' />
+                <IoEyeSharp className='w-6 h-6' />
                 {!matches && 'View'}
               </button>
             </div>
@@ -81,6 +81,6 @@ export default function PlaylistAll() {
           </Fragment>
         ))}
       </section>
-    </main>
+    </div>
   );
 }
