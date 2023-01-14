@@ -6,7 +6,7 @@ import {
   getUserData,
   getUserPlaylists,
   getUserTopContent,
-} from "./app/controller/controllerSpotify";
+} from "../controller/controllerSpotify";
 
 export const routes = Router();
 

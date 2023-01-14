@@ -14,7 +14,7 @@ export const getAccessToken = async (req: Request, res: Response) => {
   const { code } = req.body;
 
   if (!code) {
-    return res.status(400).send({
+    return res.status(400).json({
       message: "Invalid Code",
     });
   }
@@ -38,8 +38,13 @@ export const getAccessToken = async (req: Request, res: Response) => {
     );
     res.status(201).json(data);
   } catch (error: any) {
-    return res.status(error.response.data.error.status).json({
-      message: error.response.data.error.message,
+    if (error.response.data.error.status) {
+      return res.status(error.response.data.error.status).json({
+        message: error.response.data.error.message,
+      });
+    }
+    return res.status(400).json({
+      message: "Falha na conexão com o servidor",
     });
   }
 };
@@ -57,10 +62,15 @@ export const getUserData = async (req: Request, res: Response) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return res.status(200).send(data);
+    return res.status(200).json(data);
   } catch (error: any) {
-    return res.status(error.response.data.error.status).json({
-      message: error.response.data.error.message,
+    if (error.response.data.error.status) {
+      return res.status(error.response.data.error.status).json({
+        message: error.response.data.error.message,
+      });
+    }
+    return res.status(400).json({
+      message: "Falha na conexão com o servidor",
     });
   }
 };
@@ -70,7 +80,7 @@ export const getUserTopContent = async (req: Request, res: Response) => {
   const token = req.headers.authorization;
 
   if (!token) {
-    return res.status(401).send({
+    return res.status(401).json({
       message: "Invalid Access Token",
     });
   }
@@ -85,10 +95,15 @@ export const getUserTopContent = async (req: Request, res: Response) => {
         limit: 50,
       },
     });
-    return res.status(200).send(data);
+    return res.status(200).json(data);
   } catch (error: any) {
-    return res.status(error.response.data.error.status).json({
-      message: error.response.data.error.message,
+    if (error.response.data.error.status) {
+      return res.status(error.response.data.error.status).json({
+        message: error.response.data.error.message,
+      });
+    }
+    return res.status(400).json({
+      message: "Falha na conexão com o servidor",
     });
   }
 };
@@ -96,7 +111,7 @@ export const getUserTopContent = async (req: Request, res: Response) => {
 export const getUserPlaylists = async (req: Request, res: Response) => {
   const token = req.headers.authorization;
   if (!token) {
-    return res.status(401).send({
+    return res.status(401).json({
       message: "Invalid Access Token",
     });
   }
@@ -110,10 +125,15 @@ export const getUserPlaylists = async (req: Request, res: Response) => {
         limit: 50,
       },
     });
-    return res.status(200).send(data);
+    return res.status(200).json(data);
   } catch (error: any) {
-    return res.status(error.response.data.error.status).json({
-      message: error.response.data.error.message,
+    if (error.response.data.error.status) {
+      return res.status(error.response.data.error.status).json({
+        message: error.response.data.error.message,
+      });
+    }
+    return res.status(400).json({
+      message: "Falha na conexão com o servidor",
     });
   }
 };
@@ -122,7 +142,7 @@ export const getCurrentlyPlaying = async (req: Request, res: Response) => {
   const token = req.headers.authorization;
 
   if (!token) {
-    return res.status(401).send({
+    return res.status(401).json({
       message: "Invalid Access Token",
     });
   }
@@ -133,10 +153,16 @@ export const getCurrentlyPlaying = async (req: Request, res: Response) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return res.status(response.status).send(response.data);
+    return res.status(response.status).json(response?.data);
   } catch (error: any) {
-    return res.status(error.response.data.error.status).json({
-      message: error.response.data.error.message,
+    console.log(error.response);
+    if (error.response.data.error.status) {
+      return res.status(error.response.data.error.status).json({
+        message: error.response.data.error.message,
+      });
+    }
+    return res.status(400).json({
+      message: "Falha na conexão com o servidor",
     });
   }
 };
@@ -153,8 +179,13 @@ export const getPlaylistById = async (req: Request, res: Response) => {
     });
     return res.status(response.status).send(response.data);
   } catch (error: any) {
-    return res.status(error.response.data.error.status).json({
-      message: error.response.data.error.message,
+    if (error.response.data.error.status) {
+      return res.status(error.response.data.error.status).json({
+        message: error.response.data.error.message,
+      });
+    }
+    return res.status(400).json({
+      message: "Falha na conexão com o servidor",
     });
   }
 };
