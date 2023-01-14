@@ -1,12 +1,16 @@
 import axios, { AxiosResponse } from 'axios';
 import useToast from '../hooks/useToast';
 import { userToken } from '../types/auth';
-import removeAllKeys from '../utils/removeKeys';
+import { getToken, removeAllKeys } from '../utils/keys';
 
-const api = axios.create({
+const token = getToken();
+
+export const api = axios.create({
   baseURL: import.meta.env.VITE_API_SERVER,
   timeout: 30 * 1000,
 });
+
+api.defaults.headers.common['Authorization'] = token?.access_token || token;
 
 const { handleToast } = useToast();
 
@@ -36,45 +40,21 @@ export const getAccessToken = async (code: string): Promise<AxiosResponse<userTo
     code,
   });
 
-export const getUserData = async (token: string): Promise<AxiosResponse> =>
-  await api.get('/user', {
-    headers: {
-      Authorization: token,
-    },
-  });
+export const getUserData = async (): Promise<AxiosResponse> => await api.get('/user');
 
-export const getTopContent = async (
-  type: string,
-  time_range: string,
-  token: string,
-): Promise<AxiosResponse> =>
+export const getTopContent = async (type: string, time_range: string): Promise<AxiosResponse> =>
   await api.get('/user/top', {
-    headers: {
-      Authorization: token,
-    },
     params: {
       type,
       time_range,
     },
   });
 
-export const getUserPlaylists = async (token: string): Promise<AxiosResponse> =>
-  await api.get('/user/playlists', {
-    headers: {
-      Authorization: token,
-    },
-  });
+export const getUserPlaylists = async (): Promise<AxiosResponse> =>
+  await api.get('/user/playlists');
 
-export const getCurrentlyPlaying = async (token: string): Promise<AxiosResponse> =>
-  await api.get('/user/currently-playing', {
-    headers: {
-      Authorization: token,
-    },
-  });
+export const getCurrentlyPlaying = async (): Promise<AxiosResponse> =>
+  await api.get('/user/currently-playing');
 
-export const getPlaylistById = async (id: string, token: string): Promise<AxiosResponse> =>
-  await api.get(`/playlists/${id}`, {
-    headers: {
-      Authorization: token,
-    },
-  });
+export const getPlaylistById = async (id: string): Promise<AxiosResponse> =>
+  await api.get(`/playlists/${id}`);
