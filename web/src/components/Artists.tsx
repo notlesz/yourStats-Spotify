@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '../hooks/useMediaQuery';
 import useSpotify from '../hooks/useSpotify';
+import { Filter } from './';
 import Card from './Card';
-import { Filter } from './Filter';
 import Loading from './Loading';
 
 export default function Artists() {
@@ -13,7 +13,7 @@ export default function Artists() {
   return (
     <section className='animate-leftToShow'>
       <div className='flex items-center justify-between mb-8'>
-        <h3 className='text-white text-3xl font-bold md:text-2xl font-russoOne'>Top Artist</h3>
+        <h3 className='text-white text-3xl font-bold md:text-2xl'>Top Artist</h3>
         <Filter
           setTimeRange={handleTimeRange}
           typeContent='artists'

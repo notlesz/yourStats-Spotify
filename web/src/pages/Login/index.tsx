@@ -1,10 +1,11 @@
-import { FaSpotify } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import useSpotify from '../../hooks/useSpotify';
+import { getToken } from '../../utils/keys';
 
 export default function Login() {
   const { user } = useSpotify();
-  const token = localStorage.getItem('token_user');
+
+  const token = getToken();
 
   const navigate = useNavigate();
 
@@ -41,7 +42,7 @@ export default function Login() {
           "Let's Go!"
         ) : (
           <>
-            <FaSpotify className='w-5 h-5 sx:w-4 xs:h-4' />
+            <img src='/Spotify_Icon_White.png' className='w-5 h-5' />
             Sign In
           </>
         )}

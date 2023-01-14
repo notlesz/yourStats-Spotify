@@ -1,15 +1,13 @@
 import classNames from 'classnames';
 import { Fragment } from 'react';
 import { BiTime } from 'react-icons/bi';
-import { FaSpotify } from 'react-icons/fa';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Filter } from '../../components/Filter';
-import Loading from '../../components/Loading';
+import { Filter, Loading } from '../../components';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import useSpotify from '../../hooks/useSpotify';
 import { msToTime } from '../../utils/conversions';
-import redirectTo from '../../utils/document';
+import { redirectTo } from '../../utils/document';
 
 export default function TopContent() {
   const { type } = useParams<{ type: 'tracks' | 'artists' }>();
@@ -27,8 +25,8 @@ export default function TopContent() {
   const matches = useMediaQuery('(max-width:580px)');
 
   return (
-    <main className='mb-8 animate-leftToShow p-4'>
-      <h4 className='text-white text-center text-3xl font-bold mb-8 sm:text-2xl font-russoOne capitalize'>
+    <div className='animate-leftToShow p-4 my-20 md:my-10'>
+      <h4 className='text-white text-center text-4xl font-bold mb-8 md:text-2xl capitalize'>
         Top {type}
       </h4>
       <div className='flex items-center justify-between mb-8'>
@@ -80,12 +78,10 @@ export default function TopContent() {
                         </span>
                         <img
                           src={artists.images[0].url}
-                          alt=''
+                          alt={artists.name}
                           className='w-[80px] h-[80px] rounded-md object-cover md:w-[60px] md:h-[60px] xs:w-[40px] xs:h-[40px]'
                         />
-                        <p className='text-white font-semibold md:text-sm max-w-sm xs:max-w-[90px] md:max-w-[200px] text-ellipsis whitespace-nowrap overflow-hidden '>
-                          {artists.name}
-                        </p>
+                        <p className='text-white font-semibold md:text-sm'>{artists.name}</p>
                       </div>
                       <button
                         type='button'
@@ -94,7 +90,7 @@ export default function TopContent() {
                           window.open(artists.external_urls.spotify, '__blank');
                         }}
                       >
-                        <FaSpotify className='w-5 h-5' />
+                        <img src='/Spotify_Icon_White.png' className='w-5 h-5' />
                         {!matches && 'Open in Spotify'}
                       </button>
                     </div>
@@ -132,7 +128,7 @@ export default function TopContent() {
                     </span>
                     <img
                       src={track.album.images[0].url}
-                      alt=''
+                      alt={track.album.name}
                       className='w-[80px] h-[80px] rounded-md object-cover md:w-[60px] md:h-[60px] xs:w-[30px] xs:h-[30px]'
                     />
                     <p
@@ -159,6 +155,6 @@ export default function TopContent() {
           </>
         )}
       </section>
-    </main>
+    </div>
   );
 }

@@ -1,8 +1,10 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useToast from '../hooks/useToast';
+import { api, getUserData } from '../services/api';
+import { userToken } from '../types/auth';
 import { User } from '../types/user';
-import removeAllKeys from '../utils/removeKeys';
+import { removeAllKeys } from '../utils/keys';
 
 interface userProviderProps {
   children: ReactNode;
@@ -11,7 +13,7 @@ interface userProviderProps {
 interface userContext {
   user: User | null;
   logout: () => void;
-  signIn: (user: User, token: string) => void;
+  signIn: (credentials: userToken) => void;
 }
 
 export const UserContext = createContext<userContext>({} as any);
@@ -31,11 +33,19 @@ export function UserProvider({ children }: userProviderProps) {
     }, 3000);
   }
 
-  function signIn(user: User, token: string) {
-    setUser(user);
-    localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('token_user', token);
-    navigate('/home');
+  async function signIn(credentials: userToken) {
+    api.defaults.headers.common['Authorization'] = credentials.access_token;
+    try {
+      const { data } = await getUserData();
+      setUser(data);
+      localStorage.setItem('user', JSON.stringify(data));
+      localStorage.setItem('token_user', JSON.stringify(credentials));
+      handleToast('success', 'Login realizado com sucesso!');
+      navigate('/home');
+    } catch (error) {
+      handleToast('error', 'Falha oa realizar login');
+      navigate('/');
+    }
   }
 
   useEffect(() => {

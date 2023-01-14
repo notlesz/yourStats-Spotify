@@ -11,7 +11,7 @@ interface PropsFilter {
   timeRangeArtists?: string;
 }
 
-export function Filter({
+export default function Filter({
   setTimeRange,
   typeContent,
   timeRangeTracks,

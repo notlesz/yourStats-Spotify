@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { MdLibraryMusic } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import redirectTo from '../utils/document';
+import { redirectTo } from '../utils/document';
 
 interface CardProps {
   title: string;

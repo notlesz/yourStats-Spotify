@@ -10,6 +10,7 @@ import {
 import { Artists } from '../types/artists';
 import { Playlists } from '../types/playlists';
 import { Tracks } from '../types/tracks';
+import { getToken } from '../utils/keys';
 
 export type TimeRange = 'medium_term' | 'long_term' | 'short_term';
 
@@ -19,19 +20,17 @@ export default function useSpotify() {
   const [playlistId, setPlaylistId] = useState<string | null>(null);
 
   const { user } = useContext(UserContext);
-
-  const token = localStorage.getItem('token_user') || null;
+  const token = getToken();
 
   const { data: playlist, isFetching: isFetchingPlaylist } = useQuery<Playlists[]>(
     'playlist',
     async () => {
-      if (token) {
-        const { data } = await getUserPlaylists(token);
-        return data.items;
-      }
+      const { data } = await getUserPlaylists();
+      return data.items;
     },
     {
       staleTime: 3000 * 60,
+      enabled: token ? true : false,
     },
   );
 
@@ -39,51 +38,51 @@ export default function useSpotify() {
     ['tracks', timeRangeTracks],
     async () => {
       if (token) {
-        const { data } = await getTopContent('tracks', timeRangeTracks, token);
+        const { data } = await getTopContent('tracks', timeRangeTracks);
         return data.items;
       }
     },
     {
       staleTime: 3000 * 60,
+      enabled: token ? true : false,
     },
   );
 
   const { data: artists, isFetching: isFetchingArtists } = useQuery<Artists[]>(
     ['artists', timeRangeArtists],
     async () => {
-      if (token) {
-        const { data } = await getTopContent('artists', timeRangeArtists, token);
-        return data.items;
-      }
+      const { data } = await getTopContent('artists', timeRangeArtists);
+      return data.items;
     },
     {
       staleTime: 3000 * 60,
+      enabled: token ? true : false,
     },
   );
 
   const { data: currentlyPlaying, isFetching: isFetchingCurrently } = useQuery<Tracks>(
     'currentlyPlaying',
     async () => {
-      if (token && user) {
-        const { data } = await getCurrentlyPlaying(token);
-        return data.item;
-      }
+      const { data } = await getCurrentlyPlaying();
+      return data.item;
     },
     {
-      refetchInterval: 1000 * 30, // 30 seconds
+      refetchInterval: 1000 * 60, // 1 min
+      enabled: token && user ? true : false,
     },
   );
 
   const { data: playlistById, isFetching: isFetchingPlaylistById } = useQuery<Playlists>(
     ['playlistId', playlistId],
     async () => {
-      if (playlistId && token) {
-        const { data } = await getPlaylistById(playlistId, token);
+      if (playlistId) {
+        const { data } = await getPlaylistById(playlistId);
         return data;
       }
     },
     {
       staleTime: 3000 * 60,
+      enabled: token ? true : false,
     },
   );
 
