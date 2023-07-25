@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '../hooks/useMediaQuery';
-import useSpotify from '../hooks/useSpotify';
 import Card from './Card';
 import Loading from './Loading';
 import { useContext } from 'react';
