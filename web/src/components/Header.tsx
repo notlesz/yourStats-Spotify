@@ -4,19 +4,21 @@ import { MdClose, MdMenu } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
 import { UserContext } from '../context/userContext';
 import useMediaQuery from '../hooks/useMediaQuery';
-import useSpotify from '../hooks/useSpotify';
 import { Player } from './';
 import Loading from './Loading';
+import useSpotifyPlayingNow from '../hooks/useSpotifyPlayingNow';
 
 export default function Header() {
+  const { logout, user } = useContext(UserContext);
+  const { currentlyPlaying } = useSpotifyPlayingNow();
+
   const [showMenu, setShowMenu] = useState(false);
   const [loadingButton, setLoadingButton] = useState(false);
-  const { logout } = useContext(UserContext);
-
-  const { user, currentlyPlaying } = useSpotify();
 
   const matches = useMediaQuery('(max-width:768px)');
   const location = useLocation();
+
+  const handleShowMenu = () => setShowMenu(!showMenu);
 
   return (
     <header className='bg-gray-600 pb-8'>
@@ -30,7 +32,7 @@ export default function Header() {
               <button
                 type='button'
                 className='flex items-center p-2 text-sm relative text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 '
-                onClick={() => setShowMenu(!showMenu)}
+                onClick={handleShowMenu}
               >
                 {showMenu ? (
                   <MdClose className='w-[30px] h-[30px] text-white' />
@@ -46,7 +48,7 @@ export default function Header() {
                       className={classNames('text-white font-semibold hover:text-green-500', {
                         'text-green-500': location.pathname === '/home',
                       })}
-                      onClick={() => setShowMenu(!showMenu)}
+                      onClick={handleShowMenu}
                     >
                       Home
                     </Link>
@@ -57,7 +59,7 @@ export default function Header() {
                       className={classNames('text-white font-semibold hover:text-green-600', {
                         'text-green-500': location.pathname === '/top/artists',
                       })}
-                      onClick={() => setShowMenu(!showMenu)}
+                      onClick={handleShowMenu}
                     >
                       Top Artists
                     </Link>
@@ -68,7 +70,7 @@ export default function Header() {
                       className={classNames('text-white font-semibold hover:text-green-600', {
                         'text-green-500': location.pathname === '/top/tracks',
                       })}
-                      onClick={() => setShowMenu(!showMenu)}
+                      onClick={handleShowMenu}
                     >
                       Top Tracks
                     </Link>
@@ -79,7 +81,7 @@ export default function Header() {
                       className={classNames('text-white font-semibold hover:text-green-600', {
                         'text-green-500': location.pathname === '/playlists/all',
                       })}
-                      onClick={() => setShowMenu(!showMenu)}
+                      onClick={handleShowMenu}
                     >
                       Playlists
                     </Link>

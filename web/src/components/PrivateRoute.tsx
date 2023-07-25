@@ -4,14 +4,13 @@ import { UserContext } from '../context/userContext';
 import Footer from './Footer';
 import Header from './Header';
 import ScrollButton from './ScrollButton';
+import { getToken } from '../utils/keys';
 interface PrivateRouteProps {
   children: ReactNode;
 }
 export default function PrivateRoute({ children }: PrivateRouteProps) {
   const { user } = useContext(UserContext);
-  const token = localStorage.getItem('token_user')
-    ? JSON.parse(localStorage.getItem('token_user')!)
-    : null;
+  const token = getToken();
 
   return !token && !user ? (
     <Navigate to='/' />

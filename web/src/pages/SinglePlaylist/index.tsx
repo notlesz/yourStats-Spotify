@@ -1,18 +1,22 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment, useContext, useEffect } from 'react';
 import { BiTime } from 'react-icons/bi';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { MdLibraryMusic } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loading } from '../../components';
 import useMediaQuery from '../../hooks/useMediaQuery';
-import useSpotify from '../../hooks/useSpotify';
 import { msToTime } from '../../utils/conversions';
 import { redirectTo } from '../../utils/document';
+import useSpotifySinglePlaylist from '../../hooks/useSpotifySinglePlaylist';
+import { SpotifyContext } from '../../context/spotifyContext';
 
 export default function SinglePlaylist() {
-  const { handlePlaylistId, playlistById, isFetchingPlaylistById } = useSpotify();
+  const { handlePlaylistId } = useContext(SpotifyContext);
+
+  const { isFetching, singlePlaylist } = useSpotifySinglePlaylist();
+
   const { id } = useParams<{ id: string }>();
-  const matches = useMediaQuery('(max-width:580px)');
+  const matches = useMediaQuery('(max-width:720px)');
 
   const navigate = useNavigate();
 
@@ -26,7 +30,7 @@ export default function SinglePlaylist() {
   }, [id]);
 
   return (
-    <main className='animate-leftToShow p-4 mb-20 mt-5 md:mb-10'>
+    <div className='animate-leftToShow p-4 mb-20 mt-5 md:mb-10 min-h-screen'>
       <div className='flex items-center justify-between mb-8'>
         <button
           className='flex items-center gap-2 text-white text-lg font-bold hover:text-green-600'
@@ -38,20 +42,20 @@ export default function SinglePlaylist() {
       </div>
       <section className='flex flex-col w-full rounded bg-gray-600 p-8 gap-8 md:p-4 md:gap-4'>
         <>
-          {isFetchingPlaylistById ? (
+          {isFetching ? (
             <div className='w-full h-[600px] flex justify-center items-center m-auto'>
               <Loading size='medium' />
             </div>
           ) : (
             <>
-              {playlistById && (
+              {singlePlaylist && (
                 <>
                   <div className='flex justify-between md:flex-col md:mb-8'>
                     <div className='flex items-start gap-4 md:flex-col md:items-center md:mb-4'>
-                      {playlistById.images.length > 0 ? (
+                      {singlePlaylist.images.length > 0 ? (
                         <img
-                          src={playlistById?.images[0].url}
-                          alt={playlistById?.name}
+                          src={singlePlaylist?.images[0].url}
+                          alt={singlePlaylist?.name}
                           className='w-[150px] h-[150px] md:w-[120px] md:h-[120px] xs:w-[80px] xs:h-[80px] object-cover rounded'
                         />
                       ) : (
@@ -63,28 +67,30 @@ export default function SinglePlaylist() {
                       <div className='flex flex-col gap-3 self-stretch justify-around'>
                         <div>
                           <p className='font-bold text-white text-2xl max-w-[500px] md:text-center md:max-w-none md:text-xl'>
-                            {playlistById?.name}
+                            {singlePlaylist?.name}
                           </p>
                           <p className='text-gray-100 max-w-[500px] md:text-center'>
-                            {playlistById?.description}
+                            {singlePlaylist?.description}
                           </p>
                         </div>
                         <div className='flex items-center gap-2 md:justify-center md:flex-col'>
                           <p className='text-gray-100'>
                             Followers:{' '}
-                            <strong className='text-white'>{playlistById?.followers?.total}</strong>
+                            <strong className='text-white'>
+                              {singlePlaylist?.followers?.total}
+                            </strong>
                           </p>
                           <p className='text-gray-100'>
                             Tracks:{' '}
-                            <strong className='text-white'>{playlistById?.tracks?.total} </strong>
+                            <strong className='text-white'>{singlePlaylist?.tracks?.total} </strong>
                           </p>
                           <p className='text-gray-100'>
                             By:{' '}
                             <strong
                               className='text-white hover:text-green-500 hover:cursor-pointer'
-                              onClick={() => redirectTo(playlistById.owner.external_urls.spotify)}
+                              onClick={() => redirectTo(singlePlaylist.owner.external_urls.spotify)}
                             >
-                              {playlistById?.owner?.display_name}{' '}
+                              {singlePlaylist?.owner?.display_name}{' '}
                             </strong>
                           </p>
                         </div>
@@ -93,19 +99,19 @@ export default function SinglePlaylist() {
                     <button
                       type='button'
                       className='font-bold flex items-center gap-2 text-base text-white cursor-pointer hover:text-green-600 mt-3 md:self-center'
-                      onClick={() => redirectTo(playlistById?.external_urls.spotify)}
+                      onClick={() => redirectTo(singlePlaylist?.external_urls.spotify)}
                     >
                       <img src='/Spotify_Icon_White.png' className='w-5 h-5' />
                       Open Spotify
                     </button>
                   </div>
-                  {playlistById.tracks?.items?.length! > 0 ? (
+                  {singlePlaylist.tracks?.items?.length! > 0 ? (
                     <>
                       <h4 className='text-white text-center text-3xl font-bold md:mb-4'>
                         All Tracks
                       </h4>
                       <div className='flex flex-col gap-4'>
-                        {playlistById.tracks.items?.map(({ track }, index) => (
+                        {singlePlaylist.tracks.items?.map(({ track }, index) => (
                           <Fragment key={index}>
                             <div className='flex items-center justify-between gap-2'>
                               <div className='flex items-center gap-6 md:gap-3'>
@@ -135,7 +141,7 @@ export default function SinglePlaylist() {
                                 {msToTime(track.duration_ms)}
                               </span>
                             </div>
-                            {index + 1 === playlistById?.tracks?.items?.length ? null : (
+                            {index + 1 === singlePlaylist?.tracks?.items?.length ? null : (
                               <hr className='border-gray-450' />
                             )}
                           </Fragment>
@@ -145,11 +151,11 @@ export default function SinglePlaylist() {
                   ) : (
                     <h4 className='text-white text-center text-2xl font-bold md:mb-4'>No Tracks</h4>
                   )}
-                  {playlistById.tracks.total > playlistById?.tracks?.limit && (
+                  {singlePlaylist.tracks.total > singlePlaylist?.tracks?.limit && (
                     <div className='flex items-center justify-center my-4'>
                       <p
                         className='text-center uppercase text-sm text-white font-medium hover:cursor-pointer hover:text-green-500 flex items-center gap-2'
-                        onClick={() => redirectTo(playlistById?.external_urls.spotify)}
+                        onClick={() => redirectTo(singlePlaylist?.external_urls.spotify)}
                       >
                         <img src='/Spotify_Icon_White.png' className='w-5 h-5' />
                         See the full list on Spotify
@@ -162,6 +168,6 @@ export default function SinglePlaylist() {
           )}
         </>
       </section>
-    </main>
+    </div>
   );
 }

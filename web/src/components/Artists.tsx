@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '../hooks/useMediaQuery';
-import useSpotify from '../hooks/useSpotify';
 import { Filter } from './';
 import Card from './Card';
 import Loading from './Loading';
+import useSpotifyArtists from '../hooks/useSpotifyArtists';
 
 export default function Artists() {
-  const { artists, handleTimeRange, isFetchingArtists, timeRangeArtists } = useSpotify();
+  const { artists, isFetching } = useSpotifyArtists();
+
   const navigate = useNavigate();
   const matches = useMediaQuery('(max-width:768px)');
 
@@ -14,13 +15,9 @@ export default function Artists() {
     <section className='animate-leftToShow'>
       <div className='flex items-center justify-between mb-8'>
         <h3 className='text-white text-3xl font-bold md:text-2xl'>Top Artist</h3>
-        <Filter
-          setTimeRange={handleTimeRange}
-          typeContent='artists'
-          timeRangeArtists={timeRangeArtists}
-        />
+        <Filter typeContent='artists' />
       </div>
-      {isFetchingArtists ? (
+      {isFetching ? (
         <div className='w-full h-[600px] flex justify-center items-center m-auto'>
           <Loading size='medium' />
         </div>

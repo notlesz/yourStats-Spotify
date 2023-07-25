@@ -3,10 +3,15 @@ import useMediaQuery from '../hooks/useMediaQuery';
 import useSpotify from '../hooks/useSpotify';
 import Card from './Card';
 import Loading from './Loading';
+import { useContext } from 'react';
+import useSpotifyPlaylists from '../hooks/useSpotifyPlaylists';
+import { UserContext } from '../context/userContext';
 
 export default function Playlists() {
-  const { playlist, user, isFetchingPlaylist } = useSpotify();
-  const playlistFilter = playlist?.filter(
+  const { user } = useContext(UserContext);
+  const { playlists, isFetching } = useSpotifyPlaylists();
+
+  const playlistFilter = playlists?.filter(
     (playlist) => playlist.owner.display_name === user?.display_name,
   );
 
@@ -18,7 +23,7 @@ export default function Playlists() {
       <h3 className='text-white text-3xl font-bold mb-8 md:text-2xl md:text-center '>
         Public Playlists
       </h3>
-      {isFetchingPlaylist ? (
+      {isFetching ? (
         <div className='w-full h-[600px] flex justify-center items-center m-auto'>
           <Loading size='medium' />
         </div>

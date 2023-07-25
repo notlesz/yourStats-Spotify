@@ -20,8 +20,11 @@ export const UserContext = createContext<userContext>({} as any);
 
 export function UserProvider({ children }: userProviderProps) {
   const [user, setUser] = useState<User | null>(null);
+
   const navigate = useNavigate();
+
   const { handleToast } = useToast();
+
   const recoveredUser = localStorage.getItem('user');
 
   function logout() {

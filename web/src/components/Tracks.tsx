@@ -1,26 +1,22 @@
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '../hooks/useMediaQuery';
-import useSpotify from '../hooks/useSpotify';
 import { Filter } from './';
 import Card from './Card';
 import Loading from './Loading';
+import useSpotifyTracks from '../hooks/useSpotifyTracks';
 
 export default function Tracks() {
-  const { tracks, handleTimeRange, timeRangeTracks, isFetchingTracks } = useSpotify();
   const navigate = useNavigate();
+  const { tracks, isFetching } = useSpotifyTracks();
   const matches = useMediaQuery('(max-width:768px)');
 
   return (
     <section className='animate-leftToShow'>
       <div className='flex items-center justify-between mb-8'>
         <h3 className='text-white text-3xl font-bold md:text-2xl'>Top Tracks</h3>
-        <Filter
-          setTimeRange={handleTimeRange}
-          timeRangeTracks={timeRangeTracks}
-          typeContent='tracks'
-        />
+        <Filter typeContent='tracks' />
       </div>
-      {isFetchingTracks ? (
+      {isFetching ? (
         <div className='w-full h-[600px] flex justify-center items-center m-auto'>
           <Loading size='medium' />
         </div>

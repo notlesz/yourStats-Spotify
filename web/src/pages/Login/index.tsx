@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import useSpotify from '../../hooks/useSpotify';
 import { getToken } from '../../utils/keys';
+import { useContext } from 'react';
+import { UserContext } from '../../context/userContext';
 
 export default function Login() {
-  const { user } = useSpotify();
+  const { user } = useContext(UserContext);
 
   const token = getToken();
 

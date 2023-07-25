@@ -1,8 +1,8 @@
 import { BsSoundwave } from 'react-icons/bs';
-import useSpotify from '../hooks/useSpotify';
+import useSpotifyPlayingNow from '../hooks/useSpotifyPlayingNow';
 
 export default function Player() {
-  const { currentlyPlaying } = useSpotify();
+  const { currentlyPlaying } = useSpotifyPlayingNow();
 
   return (
     <div>

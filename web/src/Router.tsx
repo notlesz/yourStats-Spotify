@@ -3,61 +3,61 @@ import { ToastContainer } from 'react-toastify';
 import { PrivateRoute } from './components';
 import ScrollToTop from './components/ScrollToTop';
 import { UserProvider } from './context/userContext';
-import { Home, Login, LoginCallback } from './pages';
-import PlaylistAll from './pages/PlaylistAll';
-import SinglePlaylist from './pages/SinglePlaylist';
-import TopContent from './pages/TopContent';
+import { Home, Login, LoginCallback, PlaylistAll, SinglePlaylist, TopContent } from './pages';
+import SpotifyProvider from './context/spotifyContext';
 
 export function Router() {
   return (
     <UserProvider>
-      <ScrollToTop />
-      <ToastContainer
-        position='top-right'
-        autoClose={3000}
-        pauseOnFocusLoss={false}
-        pauseOnHover={false}
-        hideProgressBar={false}
-        closeOnClick
-        theme='dark'
-        limit={2}
-      />
-      <Routes>
-        <Route path='/login_callback' element={<LoginCallback />} />
-        <Route path='/' element={<Login />} />
-        <Route
-          path='/home'
-          element={
-            <PrivateRoute>
-              <Home />
-            </PrivateRoute>
-          }
+      <SpotifyProvider>
+        <ScrollToTop />
+        <ToastContainer
+          position='top-right'
+          autoClose={3000}
+          pauseOnFocusLoss={false}
+          pauseOnHover={false}
+          hideProgressBar={false}
+          closeOnClick
+          theme='dark'
+          limit={2}
         />
-        <Route
-          path='/playlists/all'
-          element={
-            <PrivateRoute>
-              <PlaylistAll />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path='/playlists/:id'
-          element={
-            <PrivateRoute>
-              <SinglePlaylist />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path='/top/:type'
-          element={
-            <PrivateRoute>
-              <TopContent />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
+        <Routes>
+          <Route path='/login_callback' element={<LoginCallback />} />
+          <Route path='/' element={<Login />} />
+          <Route
+            path='/home'
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/playlists/all'
+            element={
+              <PrivateRoute>
+                <PlaylistAll />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/playlists/:id'
+            element={
+              <PrivateRoute>
+                <SinglePlaylist />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/top/:type'
+            element={
+              <PrivateRoute>
+                <TopContent />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </SpotifyProvider>
     </UserProvider>
   );
 }
