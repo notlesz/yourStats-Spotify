@@ -5,7 +5,6 @@ import { api } from "../lib/axios";
 
 dotenv.config();
 
-const querystring = require("querystring");
 const redirect_uri = process.env.REDIRECT_URI;
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
@@ -22,10 +21,10 @@ export const getAccessToken = async (req: Request, res: Response) => {
   try {
     const { data } = await axios.post(
       "https://accounts.spotify.com/api/token",
-      querystring.stringify({
+      new URLSearchParams({
         grant_type: "authorization_code",
-        code: code,
-        redirect_uri: redirect_uri,
+        code: code!,
+        redirect_uri: redirect_uri!,
       }),
       {
         headers: {
