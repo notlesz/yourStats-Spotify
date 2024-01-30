@@ -33,7 +33,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        russoOne: ['Russo One', 'sans-serif'],
+        russoOne: ['var(--font-russo-one)'],
       },
       animation: {
         hideToShow: 'hideToShow 1s ease-in-out',

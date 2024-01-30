@@ -1,16 +1,16 @@
+import useToast from '@/hooks/useToast';
+import { userToken } from '@/types/auth';
+import { getToken, removeAllKeys } from '@/utils/keys';
 import axios, { AxiosResponse } from 'axios';
-import useToast from '../hooks/useToast';
-import { userToken } from '../types/auth';
-import { getToken, removeAllKeys } from '../utils/keys';
 
 const token = getToken();
 
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_SERVER,
+  baseURL: process.env.NEXT_PUBLIC_API_SERVER,
   timeout: 30 * 1000,
 });
 
-api.defaults.headers.common['Authorization'] = token?.access_token || token;
+api.defaults.headers.common['Authorization'] = token?.access_token!;
 
 const { handleToast } = useToast();
 

@@ -1,9 +1,9 @@
+import { UserContext } from '@/context/userContext';
+import { getCurrentlyPlaying } from '@/services/api';
+import { getToken } from '@/utils/keys';
+import { useContext } from 'react';
 import { useQuery } from 'react-query';
 import { Tracks } from '../types/tracks';
-import { getCurrentlyPlaying } from '../services/api';
-import { useContext } from 'react';
-import { UserContext } from '../context/userContext';
-import { getToken } from '../utils/keys';
 
 export default function useSpotifyPlayingNow() {
   const { user } = useContext(UserContext);

@@ -109,6 +109,7 @@ export const getUserTopContent = async (req: Request, res: Response) => {
 
 export const getUserPlaylists = async (req: Request, res: Response) => {
   const token = req.headers.authorization;
+
   if (!token) {
     return res.status(401).json({
       message: "Invalid Access Token",
@@ -116,6 +117,8 @@ export const getUserPlaylists = async (req: Request, res: Response) => {
   }
 
   try {
+    console.log("try", token);
+
     const { data } = await api.get("/me/playlists", {
       headers: {
         Authorization: `Bearer ${token}`,

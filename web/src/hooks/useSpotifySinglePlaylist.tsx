@@ -1,7 +1,7 @@
+import { SpotifyContext } from '@/context/spotifyContext';
+import { getPlaylistById } from '@/services/api';
+import { getToken } from '@/utils/keys';
 import { useContext } from 'react';
-import { SpotifyContext } from '../context/spotifyContext';
-import { getPlaylistById } from '../services/api';
-import { getToken } from '../utils/keys';
 import { useQuery } from 'react-query';
 import { Playlists } from '../types/playlists';
 

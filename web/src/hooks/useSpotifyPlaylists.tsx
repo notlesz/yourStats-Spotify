@@ -1,7 +1,7 @@
+import { getUserPlaylists } from '@/services/api';
+import { Playlists } from '@/types/playlists';
+import { getToken } from '@/utils/keys';
 import { useQuery } from 'react-query';
-import { Playlists } from '../types/playlists';
-import { getUserPlaylists } from '../services/api';
-import { getToken } from '../utils/keys';
 
 export default function useSpotifyPlaylists() {
   const token = getToken();
@@ -14,7 +14,7 @@ export default function useSpotifyPlaylists() {
     },
     {
       staleTime: 3000 * 60,
-      enabled: token ? true : false,
+      enabled: !!token,
     },
   );
 

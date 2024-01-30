@@ -1,9 +1,9 @@
-import { useQuery } from 'react-query';
-import { Artists } from '../types/artists';
+import { SpotifyContext } from '@/context/spotifyContext';
+import { getTopContent } from '@/services/api';
+import { Artists } from '@/types/artists';
+import { getToken } from '@/utils/keys';
 import { useContext } from 'react';
-import { SpotifyContext } from '../context/spotifyContext';
-import { getTopContent } from '../services/api';
-import { getToken } from '../utils/keys';
+import { useQuery } from 'react-query';
 
 export default function useSpotifyArtists() {
   const { timeRangeArtists } = useContext(SpotifyContext);
@@ -18,7 +18,7 @@ export default function useSpotifyArtists() {
     },
     {
       staleTime: 3000 * 60,
-      enabled: token ? true : false,
+      enabled: !!token,
     },
   );
 

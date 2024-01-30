@@ -1,7 +1,8 @@
+'use client';
+import useMediaQuery from '@/hooks/useMediaQuery';
 import classNames from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 import { MdKeyboardArrowUp } from 'react-icons/md';
-import useMediaQuery from '../hooks/useMediaQuery';
 
 export default function ScrollButton() {
   const [showButton, setShowButton] = useState(false);

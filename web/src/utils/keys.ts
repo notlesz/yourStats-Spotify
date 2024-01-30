@@ -4,5 +4,15 @@ export function removeAllKeys() {
 }
 
 export function getToken() {
-  return localStorage.getItem('token_user') ? JSON.parse(localStorage.getItem('token_user')!) : '';
+  if (typeof window !== 'undefined') {
+    const storageItem = localStorage.getItem('token_user') ?? '{}';
+
+    const parsedItem = JSON.parse(storageItem);
+
+    if (!Object.keys(parsedItem).length) return null;
+
+    return parsedItem;
+  }
+
+  return null;
 }

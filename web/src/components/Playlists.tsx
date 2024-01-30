@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-import useMediaQuery from '../hooks/useMediaQuery';
+import { UserContext } from '@/context/userContext';
+import useMediaQuery from '@/hooks/useMediaQuery';
+import useSpotifyPlaylists from '@/hooks/useSpotifyPlaylists';
+import { useRouter } from 'next/navigation';
+import { useContext } from 'react';
 import Card from './Card';
 import Loading from './Loading';
-import { useContext } from 'react';
-import useSpotifyPlaylists from '../hooks/useSpotifyPlaylists';
-import { UserContext } from '../context/userContext';
 
 export default function Playlists() {
   const { user } = useContext(UserContext);
@@ -14,7 +14,7 @@ export default function Playlists() {
     (playlist) => playlist.owner.display_name === user?.display_name,
   );
 
-  const navigate = useNavigate();
+  const navigate = useRouter();
   const matches = useMediaQuery('(max-width:768px)');
 
   return (
@@ -44,7 +44,7 @@ export default function Playlists() {
           <div className='flex justify-center mt-10'>
             <button
               className='px-4 py-1 bg-white text-black rounded uppercase font-medium'
-              onClick={() => navigate('/playlists/all')}
+              onClick={() => navigate.push('/playlists/all')}
             >
               See All
             </button>

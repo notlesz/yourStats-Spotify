@@ -1,7 +1,7 @@
+import { redirectTo } from '@/utils/document';
 import classNames from 'classnames';
+import { useRouter } from 'next/navigation';
 import { MdLibraryMusic } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
-import { redirectTo } from '../utils/document';
 
 interface CardProps {
   title: string;
@@ -24,14 +24,14 @@ export default function Card({
   externalUrl,
   id,
 }: CardProps) {
-  const navigate = useNavigate();
+  const navigate = useRouter();
 
   return (
     <li
       className='text-white flex items-center justify-around animate-hideToShow hover:text-green-500 hover:cursor-pointer'
       onClick={() => {
         if (id) {
-          return navigate(`/playlists/${id}`);
+          return navigate.push(`/playlists/${id}`);
         }
         redirectTo(externalUrl);
       }}

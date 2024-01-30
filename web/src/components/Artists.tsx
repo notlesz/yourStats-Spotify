@@ -1,14 +1,14 @@
-import { useNavigate } from 'react-router-dom';
-import useMediaQuery from '../hooks/useMediaQuery';
+import useMediaQuery from '@/hooks/useMediaQuery';
+import useSpotifyArtists from '@/hooks/useSpotifyArtists';
+import { useRouter } from 'next/navigation';
 import { Filter } from './';
 import Card from './Card';
 import Loading from './Loading';
-import useSpotifyArtists from '../hooks/useSpotifyArtists';
 
 export default function Artists() {
   const { artists, isFetching } = useSpotifyArtists();
 
-  const navigate = useNavigate();
+  const navigate = useRouter();
   const matches = useMediaQuery('(max-width:768px)');
 
   return (
@@ -38,7 +38,7 @@ export default function Artists() {
           <div className='flex justify-center mt-10'>
             <button
               className='px-4 py-1 bg-white text-black rounded uppercase font-medium'
-              onClick={() => navigate('/top/artists')}
+              onClick={() => navigate.push('/top/artists')}
             >
               See All
             </button>

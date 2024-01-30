@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactNode, createContext, useState } from 'react';
 
 export type TimeRange = 'medium_term' | 'long_term' | 'short_term';
@@ -29,18 +31,13 @@ export default function SpotifyProvider({ children }: { children: ReactNode }) {
   const [timeRangeTracks, setTimeRangeTracks] = useState<TimeRange>('medium_term');
   const [timeRangeArtists, setTimeRangeArtists] = useState<TimeRange>('medium_term');
   const [playlistFilter, setPlaylistFilter] = useState<PlaylistFilter>('all');
-
   const [playlistId, setPlaylistId] = useState<string | null>(null);
 
   const handleTimeRange = (type: 'tracks' | 'artists', timeRange: TimeRange) => {
-    if (type === 'tracks') {
-      if (timeRange !== timeRangeTracks) {
-        setTimeRangeTracks(timeRange);
-      }
-    } else {
-      if (timeRange !== timeRangeArtists) {
-        setTimeRangeArtists(timeRange);
-      }
+    if (type === 'tracks' && timeRange !== timeRangeTracks) {
+      setTimeRangeTracks(timeRange);
+    } else if (timeRange !== timeRangeArtists) {
+      setTimeRangeArtists(timeRange);
     }
   };
 

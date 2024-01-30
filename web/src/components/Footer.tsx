@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
-import { redirectTo } from '../utils/document';
+import { redirectTo } from '@/utils/document';
+import Link from 'next/link';
 export default function Footer() {
   return (
     <footer className='bg-gray-600'>
       <div className='max-w-[1350px] mx-auto py-5 flex justify-between items-center md:flex-col md:gap-5 md:pb-8'>
-        <Link to='/home'>
+        <Link href='/home'>
           <img src='../logo.png' alt='Logo' className='md:w-[180px] w-[260px]' />
         </Link>
         <p className='text-white text-xl transition-colors md:text-center md:text-lg'>

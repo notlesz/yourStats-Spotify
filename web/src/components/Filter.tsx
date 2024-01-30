@@ -1,8 +1,8 @@
+import { PlaylistFilter, SpotifyContext, TimeRange } from '@/context/spotifyContext';
+import useMediaQuery from '@/hooks/useMediaQuery';
 import classNames from 'classnames';
 import { useContext, useState } from 'react';
 import { IoMdArrowDown, IoMdArrowUp } from 'react-icons/io';
-import useMediaQuery from '../hooks/useMediaQuery';
-import { SpotifyContext, TimeRange, PlaylistFilter } from '../context/spotifyContext';
 
 interface PropsFilter {
   typeContent: 'artists' | 'tracks' | 'playlist';

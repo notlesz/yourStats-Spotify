@@ -1,12 +1,15 @@
-import classNames from 'classnames';
+'use client';
+
+import { UserContext } from '@/context/userContext';
+import useMediaQuery from '@/hooks/useMediaQuery';
+import useSpotifyPlayingNow from '@/hooks/useSpotifyPlayingNow';
+import tsx from '@/utils/tsx';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useContext, useState } from 'react';
 import { MdClose, MdMenu } from 'react-icons/md';
-import { Link, useLocation } from 'react-router-dom';
-import { UserContext } from '../context/userContext';
-import useMediaQuery from '../hooks/useMediaQuery';
 import { Player } from './';
 import Loading from './Loading';
-import useSpotifyPlayingNow from '../hooks/useSpotifyPlayingNow';
 
 export default function Header() {
   const { logout, user } = useContext(UserContext);
@@ -16,7 +19,7 @@ export default function Header() {
   const [loadingButton, setLoadingButton] = useState(false);
 
   const matches = useMediaQuery('(max-width:768px)');
-  const location = useLocation();
+  const pathname = usePathname();
 
   const handleShowMenu = () => setShowMenu(!showMenu);
 
@@ -24,7 +27,7 @@ export default function Header() {
     <header className='bg-gray-600 pb-8'>
       <div className='max-w-[1350px] mx-auto my-0 px-4'>
         <nav className='flex justify-between items-center mb-4'>
-          <Link to='/home'>
+          <Link href='/home'>
             <img src='../logo.png' alt='Logo' className='md:w-[180px] w-[260px]' />
           </Link>
           {matches ? (
@@ -44,9 +47,9 @@ export default function Header() {
                 <ul className='flex flex-col text-lg items-center gap-3 w-full mb-4 bg-gray-600 absolute right-0 mt-2 py-4'>
                   <li>
                     <Link
-                      to='/home'
-                      className={classNames('text-white font-semibold hover:text-green-500', {
-                        'text-green-500': location.pathname === '/home',
+                      href='/home'
+                      className={tsx('text-white font-semibold hover:text-green-500', {
+                        'text-green-500': pathname === '/home',
                       })}
                       onClick={handleShowMenu}
                     >
@@ -55,9 +58,9 @@ export default function Header() {
                   </li>
                   <li>
                     <Link
-                      to='/top/artists'
-                      className={classNames('text-white font-semibold hover:text-green-600', {
-                        'text-green-500': location.pathname === '/top/artists',
+                      href='/top/artists'
+                      className={tsx('text-white font-semibold hover:text-green-600', {
+                        'text-green-500': pathname === '/top/artists',
                       })}
                       onClick={handleShowMenu}
                     >
@@ -66,9 +69,9 @@ export default function Header() {
                   </li>
                   <li>
                     <Link
-                      to='/top/tracks'
-                      className={classNames('text-white font-semibold hover:text-green-600', {
-                        'text-green-500': location.pathname === '/top/tracks',
+                      href='/top/tracks'
+                      className={tsx('text-white font-semibold hover:text-green-600', {
+                        'text-green-500': pathname === '/top/tracks',
                       })}
                       onClick={handleShowMenu}
                     >
@@ -77,9 +80,9 @@ export default function Header() {
                   </li>
                   <li>
                     <Link
-                      to='/playlists/all'
-                      className={classNames('text-white font-semibold hover:text-green-600', {
-                        'text-green-500': location.pathname === '/playlists/all',
+                      href='/playlists/all'
+                      className={tsx('text-white font-semibold hover:text-green-600', {
+                        'text-green-500': pathname === '/playlists/all',
                       })}
                       onClick={handleShowMenu}
                     >
@@ -93,9 +96,9 @@ export default function Header() {
             <ul className='flex gap-3 text-lg'>
               <li>
                 <Link
-                  to='/home'
-                  className={classNames('text-white font-semibold hover:text-green-500', {
-                    'text-green-500': location.pathname === '/home',
+                  href='/home'
+                  className={tsx('text-white font-semibold hover:text-green-500', {
+                    'text-green-500': pathname === '/home',
                   })}
                 >
                   Home
@@ -103,9 +106,9 @@ export default function Header() {
               </li>
               <li>
                 <Link
-                  to='/top/artists'
-                  className={classNames('text-white font-semibold hover:text-green-600', {
-                    'text-green-500': location.pathname === '/top/artists',
+                  href='/top/artists'
+                  className={tsx('text-white font-semibold hover:text-green-600', {
+                    'text-green-500': pathname === '/top/artists',
                   })}
                 >
                   Top Artists
@@ -113,9 +116,9 @@ export default function Header() {
               </li>
               <li>
                 <Link
-                  to='/top/tracks'
-                  className={classNames('text-white font-semibold hover:text-green-600', {
-                    'text-green-500': location.pathname === '/top/tracks',
+                  href='/top/tracks'
+                  className={tsx('text-white font-semibold hover:text-green-600', {
+                    'text-green-500': pathname === '/top/tracks',
                   })}
                 >
                   Top Tracks
@@ -123,9 +126,9 @@ export default function Header() {
               </li>
               <li>
                 <Link
-                  to='/playlists/all'
-                  className={classNames('text-white font-semibold hover:text-green-600', {
-                    'text-green-500': location.pathname === '/playlists/all',
+                  href='/playlists/all'
+                  className={tsx('text-white font-semibold hover:text-green-600', {
+                    'text-green-500': pathname === '/playlists/all',
                   })}
                 >
                   Playlists
