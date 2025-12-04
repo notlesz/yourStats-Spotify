@@ -4,12 +4,9 @@ import Image from 'next/image';
 
 export default function RedirectLogin() {
   const redirectToLogin = () => {
-    const client_id = process.env.NEXT_PUBLIC_API_CLIENT_ID;
-    const redirect_uri = process.env.NEXT_PUBLIC_API_REDIRECT_URI;
-    const scope = process.env.NEXT_PUBLIC_API_SCOPE;
-    const URLAuth = `https://accounts.spotify.com/authorize?response_type=code&client_id=${client_id}&scope=${scope}&redirect_uri=${redirect_uri}`;
 
-    window.location.href = URLAuth;
+
+    window.location.href = '/api/redirect-login';
   };
 
   return (
