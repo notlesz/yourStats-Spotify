@@ -1,27 +1,38 @@
-'use client';
+import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
+import Loading from '@/components/Loading';
 
-import { Loading } from '@/components';
-import { UserContext } from '@/context/userContext';
-import { getAccessToken } from '@/services/api';
-import { useSearchParams } from 'next/navigation';
-import { useContext, useEffect } from 'react';
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
-export default function LoginCallback() {
-  const searchParams = useSearchParams();
-  const { signIn } = useContext(UserContext);
+export default async function Callback({ searchParams }: { searchParams: SearchParams }) {
+  const params = await searchParams;
+  const code = params.code as string;
 
-  const token = searchParams.get('code');
+  if (!code) {
+    redirect('/login?error=no_code');
+  }
 
-  const getCredentials = async (token: string) => {
-    const { data } = await getAccessToken(token);
-    signIn(data);
-  };
+  const headersList = await headers();
+  const host = headersList.get('host');
+  const protocol = headersList.get('x-forwarded-proto') || 'https';
+  const baseUrl = `${protocol}://${host}`;
 
-  useEffect(() => {
-    if (token) {
-      getCredentials(token);
-    }
-  }, [token]);
+  const response = await fetch(`${baseUrl}/api/token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ code }),
+    cache: 'no-store',
+  });
+
+  const data = await response.json();
+
+  if (!response.ok || !data.success) {
+    redirect('/login?error=authentication_failed');
+  }
+
+  redirect('/home');
 
   return (
     <div className='h-screen w-screen flex justify-center items-center'>
