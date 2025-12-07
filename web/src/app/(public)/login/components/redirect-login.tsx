@@ -4,8 +4,6 @@ import Image from 'next/image';
 
 export default function RedirectLogin() {
   const redirectToLogin = () => {
-
-
     window.location.href = '/api/redirect-login';
   };
 
