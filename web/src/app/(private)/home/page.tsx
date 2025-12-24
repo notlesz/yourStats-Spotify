@@ -1,4 +1,3 @@
-'use client';
 import { Artists, Playlists, Tracks } from '@/components';
 
 export default function Home() {

@@ -1,3 +1,5 @@
+'use client';
+
 import { UserContext } from '@/context/userContext';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import useSpotifyPlaylists from '@/hooks/useSpotifyPlaylists';

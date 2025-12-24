@@ -1,3 +1,5 @@
+'use client';
+
 import useMediaQuery from '@/hooks/useMediaQuery';
 import useSpotifyTracks from '@/hooks/useSpotifyTracks';
 import { useRouter } from 'next/navigation';
