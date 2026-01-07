@@ -24,13 +24,14 @@ A modern web application to visualize your Spotify listening statistics, includi
 - **React 19** - UI library
 - **TypeScript** - Type safety
 - **TailwindCSS** - Utility-first CSS
+- **Zustand** - Global state management
 - **TanStack Query v5** - Data fetching and caching
 - **React Toastify** - Toast notifications
 - **React Icons** - Icon library
 
-### Backend
+### Backend / Server
 
-- **Next.js Route Handlers** - API endpoints
+- **Next.js Server Actions** - Secure API integrations
 - **Spotify Web API** - Music data source
 - **HttpOnly Cookies** - Secure authentication
 
@@ -51,7 +52,7 @@ A modern web application to visualize your Spotify listening statistics, includi
    \`\`\`env
    CLIENT_ID=your_spotify_client_id
    CLIENT_SECRET=your_spotify_client_secret
-   REDIRECT_URI=https://localhost:3000/callback
+   REDIRECT_URI=http://localhost:3000/callback
    SCOPE=user-read-private user-read-email user-top-read user-read-currently-playing playlist-read-private
    \`\`\`
 
@@ -60,17 +61,9 @@ A modern web application to visualize your Spotify listening statistics, includi
    pnpm dev
    \`\`\`
 
-5. Open [https://localhost:3000](https://localhost:3000)
+5. Open [http://localhost:3000](http://localhost:3000)
 
 ## 🔧 Development
-
-### Mock Data (Local Testing)
-
-For local development without Spotify authentication, use the mock data:
-
-\`\`\`typescript
-import { mockUser, mockArtists, mockTracks, mockPlaylists } from '@/mocks/data';
-\`\`\`
 
 ### Build for Production
 
