@@ -43,11 +43,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Allow access in development mode without Spotify tokens
-  if (process.env.NODE_ENV === 'development') {
-    return NextResponse.next();
-  }
-
   const accessToken = request.cookies.get('spotify_access_token');
   const refreshToken = request.cookies.get('spotify_refresh_token');
   const tokenCreatedAt = request.cookies.get('token_created_at');

@@ -1,42 +1,63 @@
-import { redirect } from 'next/navigation';
-import { headers } from 'next/headers';
+'use client';
+
+import { useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Loading from '@/components/Loading';
 
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+function CallbackContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const code = searchParams.get('code');
 
-export default async function Callback({ searchParams }: { searchParams: SearchParams }) {
-  const params = await searchParams;
-  const code = params.code as string;
+  useEffect(() => {
+    if (!code) {
+      router.push('/login?error=no_code');
+      return;
+    }
 
-  if (!code) {
-    redirect('/login?error=no_code');
-  }
+    const exchangeToken = async () => {
+      try {
+        const response = await fetch('/api/token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ code }),
+        });
 
-  const headersList = await headers();
-  const host = headersList.get('host');
-  const protocol = headersList.get('x-forwarded-proto') || 'https';
-  const baseUrl = `${protocol}://${host}`;
+        const data = await response.json();
 
-  const response = await fetch(`${baseUrl}/api/token`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ code }),
-    cache: 'no-store',
-  });
+        if (data.success) {
+          router.push(data.redirectTo || '/home');
+        } else {
+          router.push('/login?error=authentication_failed');
+        }
+      } catch (error) {
+        console.error('Token exchange error:', error);
+        router.push('/login?error=server_error');
+      }
+    };
 
-  const data = await response.json();
-
-  if (!response.ok || !data.success) {
-    redirect('/login?error=authentication_failed');
-  }
-
-  redirect('/home');
+    exchangeToken();
+  }, [code, router]);
 
   return (
     <div className='h-screen w-screen flex justify-center items-center'>
       <Loading />
     </div>
+  );
+}
+
+export default function Callback() {
+  return (
+    <Suspense
+      fallback={
+        <div className='h-screen w-screen flex justify-center items-center'>
+          <Loading />
+        </div>
+      }
+    >
+      <CallbackContent />
+    </Suspense>
   );
 }
